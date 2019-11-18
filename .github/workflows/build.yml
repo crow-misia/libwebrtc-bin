@@ -8,8 +8,8 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build_arm:
-    name: Build for arm
+  build_linux:
+    name: Build for Linux
     runs-on: ubuntu-latest
     steps:
       -
