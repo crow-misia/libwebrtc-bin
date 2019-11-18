@@ -8,7 +8,7 @@ on:
       - 'v*.*.*'
 
 jobs:
-  release_arm:
+  release_linux:
     name: Release for arm
     runs-on: ubuntu-latest
     steps:
@@ -40,23 +40,7 @@ jobs:
           files: "release/libwebrtc-linux-arm.tar.xz"
           draft: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  release_arm64:
-    name: Release for arm64
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v1
-      -
-        name: Output Disk size
-        run: df -hT
-      -
-        name: Disk Cleanup
-        run: ./disk_cleanup.sh
-      -
-        name: Output Disk size
-        run: df -hT
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
       -
         name: Build for arm64
         run: make arm64.clean arm64.build arm64.compress
@@ -73,23 +57,7 @@ jobs:
           files: "release/libwebrtc-linux-arm64.tar.xz"
           draft: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  release_x64:
-    name: Release for x64
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v1
-      -
-        name: Output Disk size
-        run: df -hT
-      -
-        name: Disk Cleanup
-        run: ./disk_cleanup.sh
-      -
-        name: Output Disk size
-        run: df -hT
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
       -
         name: Build for x64
         run: make x64.clean x64.build x64.compress
@@ -106,7 +74,7 @@ jobs:
           files: "release/libwebrtc-linux-x64.tar.xz"
           draft: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
   release_macos:
     name: Release for macOS
     runs-on: macos-latest
@@ -133,7 +101,7 @@ jobs:
           files: "release/libwebrtc-macos-x64.tar.xz"
           draft: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
   release_win:
     name: Release for Windows
     runs-on: windows-latest
@@ -159,4 +127,5 @@ jobs:
           files: "release/libwebrtc-win-x64.tar.xz"
           draft: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+
