@@ -1,0 +1,113 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - 'v*.*.*'
+
+jobs:
+  build_arm:
+    name: Build for arm
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Output Disk size
+        run: df -hT
+      -
+        name: Disk Cleanup
+        run: ./disk_cleanup.sh
+      -
+        name: Output Disk size
+        run: df -hT
+      -
+        name: Build for arm
+        run: make arm.clean arm.build arm.copy
+        working-directory: build
+        timeout-minutes: 120
+      -
+        name: Output Disk size
+        run: df -hT
+      -
+        name: Upload artifact for arm
+        uses: actions/upload-artifact@v1
+        with:
+          name: libwebrtc-linux-arm
+          path: release
+      -
+        name: Build for arm64
+        run: make arm64.clean arm64.build arm64.copy
+        working-directory: build
+        timeout-minutes: 120
+      -
+        name: Output Disk size
+        run: df -hT
+      -
+        name: Upload artifact for arm64
+        uses: actions/upload-artifact@v1
+        with:
+          name: libwebrtc-linux-arm64
+          path: release
+      -
+        name: Build for x64
+        run: make x64.clean x64.build x64.copy
+        working-directory: build
+        timeout-minutes: 120
+      -
+        name: Output Disk size
+        run: df -hT
+      -
+        name: Upload artifact for x64 
+        uses: actions/upload-artifact@v1
+        with:
+          name: libwebrtc-linux-x64
+          path: release
+  build_macos:
+    name: Build for macOS
+    runs-on: macos-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Output Disk size
+        run: df -h
+      -
+        name: Build for macOS
+        run: make macos.clean macos.build macos.copy
+        working-directory: build
+        timeout-minutes: 120
+      -
+        name: Output Disk size
+        run: df -h
+      -
+        name: Upload artifact for macOS
+        uses: actions/upload-artifact@v1
+        with:
+          name: libwebrtc-macos-x64
+          path: release
+  build_win:
+    name: Build for Windows
+    runs-on: windows-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v1
+      -
+        name: Disk Cleanup
+        run: .\disk_cleanup.bat
+      -
+        name: Build for Windows
+        run: .\build.bat
+        timeout-minutes: 120
+      -
+        name: Upload artifact for Windows
+        uses: actions/upload-artifact@v1
+        with:
+          name: libwebrtc-win-x64
+          path: release
+
