@@ -41,7 +41,7 @@ download:
 .PHONY: compress
 compress: copy
 	cd ${RELEASE_DIR} && \
-	tar -cf - include lib NOTICE VERSION | xz -6e -c - > libwebrtc-linux-${TARGET_OS}-${TARGET_CPU}${PACKAGE_SUFFIX}.tar.xz
+	tar -cf - include lib NOTICE VERSION | xz -6e -c - > libwebrtc-${TARGET_OS}-${TARGET_CPU}${PACKAGE_SUFFIX}.tar.xz
 
 .PHONY: copy
 copy:
