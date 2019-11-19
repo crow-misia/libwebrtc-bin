@@ -58,7 +58,7 @@ copy:
 	cd ${WEBRTC_DIR}/src/third_party/libyuv/include/libyuv && \
 	for h in $$(find . -type f -name '*.h'); do \
 	  install -d `dirname ${RELEASE_DIR}/include/libyuv/$$h`; \
-	  install -m 0644 -D $$h ${RELEASE_DIR}/include/libyuv/$$h; \
+	  install -m 0644 $$h ${RELEASE_DIR}/include/libyuv/$$h; \
 	done
 	install -d `dirname ${RELEASE_DIR}/include/third_party/libyuv/include`;
 	install -m 0644 ${WEBRTC_DIR}/src/third_party/libyuv/include/libyuv.h ${RELEASE_DIR}/include/third_party/libyuv/include/libyuv.h
