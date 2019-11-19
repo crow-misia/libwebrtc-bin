@@ -125,10 +125,13 @@ robocopy "$WEBRTC_DIR\src\rtc_base" "$REPO_DIR\release\include\rtc_base" *.h /S
 robocopy "$WEBRTC_DIR\src\rtc_tools" "$REPO_DIR\release\include\rtc_tools" *.h /S
 robocopy "$WEBRTC_DIR\src\system_wrappers" "$REPO_DIR\release\include\system_wrappers" *.h /S
 robocopy "$WEBRTC_DIR\src\video" "$REPO_DIR\release\include\video" *.h /S
-robocopy "$WEBRTC_DIR\src\third_party/abseil-cpp" "$REPO_DIR\release\include\abseil-cpp" *.h /S
-robocopy "$WEBRTC_DIR\src\third_party/jsoncpp/source/include" "$REPO_DIR\release\include\jsoncpp" *.h /S
+robocopy "$WEBRTC_DIR\src\third_party\abseil-cpp\absl" "$REPO_DIR\release\include\absl" *.h /S
+robocopy "$WEBRTC_DIR\src\third_party\jsoncpp\source\include\json" "$REPO_DIR\release\include\json" *.h /S
+robocopy "$WEBRTC_DIR\src\third_party\libyuv\include\libyuv" "$REPO_DIR\release\include\libyuv" *.h /S
+New-Item $REPO_DIR\release\third_party\libyuv\include -ItemType Directory -Force
+Copy-Item $WEBRTC_DIR\src\third_party\libyuv\include\libyuv.h $REPO_DIR\release\include\third_party\libyuv\include\libyuv.h
 Move-Item $WEBRTC_DIR\build_debug\webrtc.lib $REPO_DIR\release\debug\webrtc.lib -Force
 Move-Item $WEBRTC_DIR\build_release\webrtc.lib $REPO_DIR\release\release\webrtc.lib -Force
-COPY-Item $REPO_DIR\NOTICE $REPO_DIR\release\
+Copy-Item $REPO_DIR\NOTICE $REPO_DIR\release\NOTICE
 $WEBRTC_VERSION | Out-File $REPO_DIR\release\VERSION
 

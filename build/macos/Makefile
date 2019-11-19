@@ -55,6 +55,13 @@ copy:
 	  install -d `dirname ${RELEASE_DIR}/include/$$h`; \
 	  install -m 0644 $$h ${RELEASE_DIR}/include/$$h; \
 	done
+	cd ${WEBRTC_DIR}/src/third_party/libyuv/include/libyuv && \
+	for h in $$(find . -type f -name '*.h'); do \
+	  install -d `dirname ${RELEASE_DIR}/include/libyuv/$$h`; \
+	  install -m 0644 -D $$h ${RELEASE_DIR}/include/libyuv/$$h; \
+	done
+	install -d `dirname ${RELEASE_DIR}/include/third_party/libyuv/include`;
+	install -m 0644 ${WEBRTC_DIR}/src/third_party/libyuv/include/libyuv.h ${RELEASE_DIR}/include/third_party/libyuv/include/libyuv.h
 	cp -f ${WEBRTC_DIR}/src/*.h ${RELEASE_DIR}/include
 	cp -f ${BASE_DIR}/NOTICE ${RELEASE_DIR}/
 	echo "${WEBRTC_VERSION}" > ${RELEASE_DIR}/VERSION
