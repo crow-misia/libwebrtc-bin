@@ -39,6 +39,7 @@ compress: copy
 copy:
 	install -d ${RELEASE_DIR}/lib
 	install -m 0644 ${WEBRTC_DIR}/out/obj/libwebrtc.a ${RELEASE_DIR}/lib/libwebrtc.a
+	install -m 0644 ${WEBRTC_DIR}/out/obj/third_party/boringssl/libboringssl.a ${RELEASE_DIR}/lib/libboringssl.a
 
 	cd ${WEBRTC_DIR}/src &&	\
 	for h in $$(find api audio base call common_audio common_video logging media modules p2p pc rtc_base rtc_tools system_wrappers video -type f -name '*.h'); do \
@@ -46,6 +47,11 @@ copy:
 	  install -m 0644 $$h ${RELEASE_DIR}/include/$$h; \
 	done
 	cd ${WEBRTC_DIR}/src/third_party/abseil-cpp && \
+	for h in $$(find . -type f -name '*.h'); do \
+	  install -d `dirname ${RELEASE_DIR}/include/$$h`; \
+	  install -m 0644 $$h ${RELEASE_DIR}/include/$$h; \
+	done
+	cd ${WEBRTC_DIR}/src/third_party/boringssl/src/include && \
 	for h in $$(find . -type f -name '*.h'); do \
 	  install -d `dirname ${RELEASE_DIR}/include/$$h`; \
 	  install -m 0644 $$h ${RELEASE_DIR}/include/$$h; \
