@@ -6,18 +6,26 @@ else
 CC_WRAPPER=
 endif
 
+PACKAGE_SUFFIX=
+
 ifeq ($(USE_H264),1)
 RTC_USE_H264=rtc_use_h264=true
-PACKAGE_SUFFIX=-h264
+PACKAGE_SUFFIX+=-h264
 else
 RTC_USE_H264=rtc_use_h264=false
-PACKAGE_SUFFIX=
+endif
+
+ifeq ($(USE_X11),1)
+RTC_USE_X11=rtc_use_x11=true
+PACKAGE_SUFFIX+=-x11
+else
+RTC_USE_X11=rtc_use_x11=false
 endif
 
 .PHONY: clean
 clean:
-	rm -rf ${RELEASE_DIR}
-	rm -rf ${WEBRTC_DIR}/out
+	rm -rf $(RELEASE_DIR)
+	rm -rf $(WEBRTC_DIR)/out
 
 .PHONY: download
 download:
@@ -26,7 +34,7 @@ download:
 .PHONY: compress
 compress: copy
 	cd ${RELEASE_DIR} && \
-	tar -Jcf libwebrtc-${TARGET_OS}-${TARGET_CPU}${PACKAGE_SUFFIX}.tar.xz include lib NOTICE VERSION
+	tar -Jcf libwebrtc-${TARGET_OS}-${TARGET_CPU}$(strip ${PACKAGE_SUFFIX}).tar.xz include lib NOTICE VERSION
 
 .PHONY: copy
 copy:

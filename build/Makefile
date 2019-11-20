@@ -10,6 +10,7 @@ help:
 	@echo "<option>:"
 	@echo " - USE_CCACHE=1"
 	@echo " - USE_H264=1"
+	@echo " - USE_X11=1"
 	@echo ""
 	@echo "<packageName>:"
 	@for pkg in $(PACKAGE_NAMES); do echo " - $$pkg"; done
@@ -31,6 +32,8 @@ else
 CCACHE=
 endif
 
+SUB_DIR_OPTS=USE_CCACHE=$(USE_CCACHE) USE_H264=$(USE_H264) USE_X11=$(USE_X11)
+
 define generateRules
 
 .PHONY: $(1)
@@ -42,15 +45,15 @@ $(1).clean:
 
 .PHONY: $(1).build
 $(1).build: prepare ${CCACHE} depot_tools fetch
-	make USE_CCACHE=$(USE_CCACHE) USE_H264=$(USE_H264) -C $(1) build
+	make ${SUB_DIR_OPTS} -C $(1) build
 
 .PHONY: $(1).copy
 $(1).copy:
-	make -C $(1) copy
+	make ${SUB_DIR_OPTS} -C $(1) copy
 
 .PHONY: $(1).compress
 $(1).compress:
-	make -C $(1) compress
+	make ${SUB_DIR_OPTS} -C $(1) compress
 
 endef
 
