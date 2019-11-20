@@ -65,11 +65,10 @@ copy:
 	for h in $$(find . -type f -name '*.h'); do \
 	  install -m 0644 -D $$h ${RELEASE_DIR}/include/$$h; \
 	done
-	cd ${WEBRTC_DIR}/src/third_party/libyuv/include/libyuv && \
+	cd ${WEBRTC_DIR}/src/third_party/libyuv/include && \
 	for h in $$(find . -type f -name '*.h'); do \
-	  install -m 0644 -D $$h ${RELEASE_DIR}/include/libyuv/$$h; \
+	  install -m 0644 -D $$h ${RELEASE_DIR}/include/$$h; \
 	done
-	install -m 0644 -D ${WEBRTC_DIR}/src/third_party/libyuv/include/libyuv.h ${RELEASE_DIR}/include/third_party/libyuv/include/libyuv.h
 	cp -f ${WEBRTC_DIR}/src/*.h ${RELEASE_DIR}/include
 	cp -f ${BASE_DIR}/NOTICE ${RELEASE_DIR}/
 	echo "${WEBRTC_VERSION}" > ${RELEASE_DIR}/VERSION

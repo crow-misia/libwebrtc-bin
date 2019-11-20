@@ -130,7 +130,7 @@ robocopy "$WEBRTC_DIR\src\third_party\boringssl\src\include\openssl" "$REPO_DIR\
 robocopy "$WEBRTC_DIR\src\third_party\jsoncpp\source\include\json" "$REPO_DIR\release\include\json" *.h /S
 robocopy "$WEBRTC_DIR\src\third_party\libyuv\include\libyuv" "$REPO_DIR\release\include\libyuv" *.h /S
 New-Item $REPO_DIR\release\include\third_party\libyuv\include -ItemType Directory -Force
-Copy-Item $WEBRTC_DIR\src\third_party\libyuv\include\libyuv.h $REPO_DIR\release\include\third_party\libyuv\include\libyuv.h
+Copy-Item $WEBRTC_DIR\src\third_party\libyuv\include\libyuv.h $REPO_DIR\release\include\libyuv.h
 Move-Item $WEBRTC_DIR\build_debug\webrtc.lib $REPO_DIR\release\debug\webrtc.lib -Force
 Move-Item $WEBRTC_DIR\build_debug\obj\third_party\boringssl\boringssl.lib $REPO_DIR\release\debug\boringssl.lib -Force
 Move-Item $WEBRTC_DIR\build_release\webrtc.lib $REPO_DIR\release\release\webrtc.lib -Force
