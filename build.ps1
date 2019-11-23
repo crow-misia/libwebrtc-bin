@@ -35,6 +35,8 @@ if ($path) {
 
 $REPO_DIR = Resolve-Path "."
 $WEBRTC_DIR = "C:\webrtc"
+$DEPOT_TOOLS_DIR = "$REPO_DIR\depot_tools"
+$PATCH_DIR = "REPO_DIR\patch"
 
 # WebRTC ビルドに必要な環境変数の設定
 $Env:GYP_MSVS_VERSION = "2019"
@@ -42,8 +44,8 @@ $Env:DEPOT_TOOLS_WIN_TOOLCHAIN = "0"
 $Env:PYTHONIOENCODING = "utf-8"
 
 # depot_tools
-if (Test-Path depot_tools) {
-  Push-Location depot_tools
+if (Test-Path $DEPOT_TOOLS_DIR) {
+  Push-Location $DEPOT_TOOLS_DIR
     git checkout .
     git clean -df .
     git pull .
@@ -51,24 +53,39 @@ if (Test-Path depot_tools) {
 } else {
   git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 }
-$Env:PATH = "$REPO_DIR\depot_tools;$Env:PATH"
+$Env:PATH = "$DEPOT_TOOLS_DIR;$Env:PATH"
 # Choco へのパスを削除
 $Env:PATH = $Env:Path.Replace("C:\ProgramData\Chocolatey\bin;", "");
 
 # WebRTC のソース取得
-if (!(Test-Path $WEBRTC_DIR)) {
-  mkdir $WEBRTC_DIR
-}
+New-Item $WEBRTC_DIR -ItemType Directory -Force
 Push-Location $WEBRTC_DIR
-  fetch webrtc
+if (Test-Path .gclient) {
+  Push-Location src
+  git checkout .
+  git clean -df .
+  Pop-Location
+
+  Push-Location src\third_party
+  git checkout .
+  git clean -df .
+  Pop-Location
+} else {
+  if (Test-Path $DEPOT_TOOLS_DIR\metrics.cfg) {
+    Remove-Item $DEPOT_TOOLS_DIR\metrics.cfg -Force
+  }
+  if (Test-Path src) {
+    Remove-Item src -Recurse -Force
+  }
+  fetch --nohooks webrtc
+}
+gclient sync --with_branch_heads -r $WEBRTC_COMMIT
+git apply $PATCH_DIR\4k.patch
 Pop-Location
 
 Get-PSDrive
 
 Push-Location $WEBRTC_DIR\src
-  git checkout -f $WEBRTC_COMMIT
-  gclient sync
-
   # WebRTC ビルド
   gn gen ..\build_debug --args='is_debug=true treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true use_custom_libcxx=false'
   ninja -C "$WEBRTC_DIR\build_debug"

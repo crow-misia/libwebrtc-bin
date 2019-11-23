@@ -77,18 +77,29 @@ depot_tools:
 
 .PHONY: fetch
 fetch:
-	export PATH="$(DEPOT_TOOLS_DIR):$(PATH)" && \
-	if [ -f $(WEBRTC_DIR)/.gclient ]; then \
+	export PATH="$(DEPOT_TOOLS_DIR):$(PATH)" \
+	&& mkdir -p $(WEBRTC_DIR) \
+	&& cd $(WEBRTC_DIR) \
+	&& if [ -f ./.gclient ]; then \
 	  echo "Syncing webrtc ..."; \
+	  cd src; \
+	  git checkout .; \
+	  git clean -df; \
+	  cd third_party; \
+	  git checkout .; \
+	  git clean -df; \
 	else \
 	  echo "Getting WEBRTC ..."; \
-	  mkdir -p $(WEBRTC_DIR); \
 	  rm -f $(DEPOT_TOOLS_DIR)/metrics.cfg; \
-	  cd $(WEBRTC_DIR) && \
+	  rm -rf $(WEBRTC_DIR)/src; \
 	  fetch --nohooks webrtc; \
-	fi && \
-	cd $(WEBRTC_DIR) && \
-	gclient sync --with_branch_heads -r $(WEBRTC_COMMIT)
+	fi \
+	&& gclient sync --with_branch_heads -r $(WEBRTC_COMMIT) \
+	&& echo "apply patches ..." \
+	&& cd $(WEBRTC_DIR)/src \
+	&& patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch \
+	&& patch -p2 < $(PATCH_DIR)/4k.patch \
+	&& patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch
 
 .PHONY: clean
 clean:
