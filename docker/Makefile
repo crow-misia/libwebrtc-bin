@@ -45,20 +45,30 @@ define generateRules
 
 .PHONY: $(1).prepare
 $(1).prepare:
-	rm -rf VERSION NOTICE LICENSE patch build
-	cp -a ../VERSION ../NOTICE ../LICENSE ../patch ../build .
+	rm -rf VERSION NOTICE LICENSE build
+	cp -a ../VERSION ../NOTICE ../LICENSE ../build .
 	DOCKER_BUILDKIT=1 $(DOCKER) build -t libwebrtc:$(IMAGE_VERSION) -f ./Dockerfile
-	rm -rf VERSION NOTICE LICENSE patch build
+	rm -rf VERSION NOTICE LICENSE build
 
 .PHONY: $(1).edit
 $(1).edit: $(1).prepare
-	mkdir -p $(CURDIR)/../release
-	$(DOCKER) run -it --rm -v $(CURDIR)/../release:/root/release libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+	mkdir -p $(BASE_DIR)/release
+	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR)/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+
+.PHONY: $(1).edit-nobuild
+$(1).edit-nobuild:
+	mkdir -p $(BASE_DIR)/release
+	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR)/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+
+.PHONY: $(1).nobuild
+$(1).nobuild
+	mkdir -p $(BASE_DIR)/release
+	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
 
 .PHONY: $(1)
 $(1): $(1).prepare
-	mkdir -p $(CURDIR)/../release
-	$($(DOCKER) run -it --rm -v $(CURDIR)/../release:/root/release libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
+	mkdir -p $(BASE_DIR)/release
+	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
 
 endef
 

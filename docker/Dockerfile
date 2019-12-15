@@ -16,7 +16,6 @@ RUN \
     python \
     pkg-config
 
-COPY patch/ /root/patch/
 COPY build/ /root/build/
 COPY Makefile VERSION LICENSE NOTICE /root/
 

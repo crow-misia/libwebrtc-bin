@@ -38,7 +38,7 @@ endif
 define generateRules
 
 .PHONY: $(1)
-$(1): $(1).clean $(1).build $(1).compress
+$(1): $(1).clean $(1).build $(1).package
 
 .PHONY: $(1).clean
 $(1).clean:
