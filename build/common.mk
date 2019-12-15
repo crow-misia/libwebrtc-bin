@@ -24,7 +24,8 @@ endif
 
 .PHONY: clean
 clean:
-	rm -rf $(RELEASE_DIR)
+	mkdir -p $(RELEASE_DIR)
+	rm -rf $(RELEASE_DIR)/*
 	rm -rf $(WEBRTC_DIR)/out
 
 .PHONY: download
