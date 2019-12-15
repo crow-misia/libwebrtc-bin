@@ -52,6 +52,10 @@ $(1).build: prepare fetch sync patch
 $(1).build-nofetch: sync patch
 	make $(SUB_DIR_OPTS) -C $(1) build
 
+.PHONY: $(1).copy
+$(1).copy:
+	make $(SUB_DIR_OPTS) -C $(1) copy
+
 .PHONY: $(1).package
 $(1).package:
 	make $(SUB_DIR_OPTS) -C $(1) package
