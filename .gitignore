@@ -115,9 +115,7 @@ fabric.properties
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-third_party/
-include/
-lib/
+release/
 webrtc/
-*.tar.xz
+webrtc-cache/
 
