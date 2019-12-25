@@ -19,12 +19,6 @@ jobs:
         name: Output Disk size
         run: df -hT
       -
-        name: Disk Cleanup
-        run: ./disk_cleanup.sh
-      -
-        name: Output Disk size
-        run: df -hT
-      -
         name: Build for arm
         run: make arm.clean arm.build arm.copy
         working-directory: build
