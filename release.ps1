@@ -3,7 +3,7 @@
 
 $REPO_DIR = Resolve-Path "."
 
-Push-Location $REPO_DIR\release
+Push-Location $REPO_DIR\package
   tar -Jcf libwebrtc-win-x64.tar.xz include release debug NOTICE VERSION
   Remove-Item release -Recurse -Force
   Remove-Item debug -Recurse -Force

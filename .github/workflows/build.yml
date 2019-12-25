@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: libwebrtc-linux-arm
-          path: release
+          path: package
       -
         name: Build for arm64
         run: make arm64.clean arm64.build arm64.copy
@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: libwebrtc-linux-arm64
-          path: release
+          path: package
       -
         name: Build for x64
         run: make x64.clean x64.build x64.copy
@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: libwebrtc-linux-x64
-          path: release
+          path: package
   build_macos:
     name: Build for macOS
     runs-on: macos-latest
@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: libwebrtc-macos-x64
-          path: release
+          path: package
   build_win:
     name: Build for Windows
     runs-on: windows-latest
@@ -109,5 +109,5 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: libwebrtc-win-x64
-          path: release
+          path: package
 

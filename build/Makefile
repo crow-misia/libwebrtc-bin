@@ -132,4 +132,5 @@ patch:
 .PHONY: clean
 clean:
 	rm -rf $(WEBRTC_DIR)
-	rm -rf $(RELEASE_DIR)
+	rm -rf $(BUILD_DIR)
+	rm -rf $(PACKAGE_DIR)

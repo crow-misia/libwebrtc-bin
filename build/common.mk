@@ -24,9 +24,8 @@ endif
 
 .PHONY: clean
 clean:
-	mkdir -p $(RELEASE_DIR)
-	rm -rf $(RELEASE_DIR)/*
-	rm -rf $(WEBRTC_DIR)/out
+	rm -rf $(PACKAGE_DIR)
+	rm -rf $(BUILD_DIR)
 
 .PHONY: download
 download:
@@ -34,40 +33,18 @@ download:
 
 .PHONY: package
 package: copy
-	cd $(RELEASE_DIR) && \
+	cd $(PACKAGE_DIR) && \
 	tar -Jcf libwebrtc-$(TARGET_OS)-$(TARGET_CPU)$(strip $(PACKAGE_SUFFIX)).tar.xz include lib NOTICE VERSION
 
 .PHONY: copy
 copy:
-	install -m 0755 -d $(RELEASE_DIR)/lib
-	install -m 0644 $(WEBRTC_DIR)/out/obj/libwebrtc.a $(RELEASE_DIR)/lib/libwebrtc.a
-	install -m 0644 $(WEBRTC_DIR)/out/obj/third_party/boringssl/libboringssl.a $(RELEASE_DIR)/lib/libboringssl.a
+	rm -rf $(PACKAGE_DIR)
+	mkdir -p $(PACKAGE_DIR)/lib
+	mkdir -p $(PACKAGE_DIR)/include
+	cp $(BUILD_DIR)/obj/libwebrtc.a $(PACKAGE_DIR)/lib/libwebrtc.a
+	cp $(BUILD_DIR)/obj/third_party/boringssl/libboringssl.a $(PACKAGE_DIR)/lib/libboringssl.a
 
-	cd $(WEBRTC_DIR)/src && \
-	for h in $$(find api audio base call common_audio common_video logging media modules p2p pc rtc_base rtc_tools system_wrappers video -type f -name '*.h'); do \
-	  install -m 0755 -d `dirname $(RELEASE_DIR)/include/$$h`; \
-	  install -m 0644 $$h $(RELEASE_DIR)/include/$$h; \
-	done
-	cd $(WEBRTC_DIR)/src/third_party/abseil-cpp && \
-	for h in $$(find . -type f -name '*.h'); do \
-	  install -m 0755 -d `dirname $(RELEASE_DIR)/include/$$h`; \
-	  install -m 0644 $$h $(RELEASE_DIR)/include/$$h; \
-	done
-	cd $(WEBRTC_DIR)/src/third_party/boringssl/src/include && \
-	for h in $$(find . -type f -name '*.h'); do \
-	  install -m 0755 -d `dirname $(RELEASE_DIR)/include/$$h`; \
-	  install -m 0644 $$h $(RELEASE_DIR)/include/$$h; \
-	done
-	cd $(WEBRTC_DIR)/src/third_party/jsoncpp/source/include && \
-	for h in $$(find . -type f -name '*.h'); do \
-	  install -m 0755 -d `dirname $(RELEASE_DIR)/include/$$h`; \
-	  install -m 0644 $$h $(RELEASE_DIR)/include/$$h; \
-	done
-	cd $(WEBRTC_DIR)/src/third_party/libyuv/include && \
-	for h in $$(find . -type f -name '*.h'); do \
-	  install -m 0755 -d `dirname $(RELEASE_DIR)/include/$$h`; \
-	  install -m 0644 $$h $(RELEASE_DIR)/include/$$h; \
-	done
-	cp -f $(WEBRTC_DIR)/src/*.h $(RELEASE_DIR)/include
-	cp -f $(BASE_DIR)/NOTICE $(RELEASE_DIR)/
-	echo '$(WEBRTC_VERSION)' > $(RELEASE_DIR)/VERSION
+	rsync -amv '--include=*/' '--include=*.h' '--include=*.hpp' '--exclude=*' $(SRC_DIR)/. $(PACKAGE_DIR)/include/.
+
+	cp -f $(BASE_DIR)/NOTICE $(PACKAGE_DIR)/
+	echo '$(WEBRTC_VERSION)' > $(PACKAGE_DIR)/VERSION

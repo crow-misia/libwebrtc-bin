@@ -35,6 +35,7 @@ if ($path) {
 
 $REPO_DIR = Resolve-Path "."
 $WEBRTC_DIR = "C:\webrtc"
+$WEBRTC_BUILD_DIR = "C:\webrtc_build"
 $DEPOT_TOOLS_DIR = "$REPO_DIR\depot_tools"
 $PATCH_DIR = "REPO_DIR\patch"
 
@@ -79,6 +80,11 @@ if (Test-Path .gclient) {
   }
   fetch --nohooks webrtc
 }
+
+if (!(Test-Path $WEBRTC_BUILD_DIR)) {
+  mkdir $WEBRTC_BUILD_DIR
+}
+
 gclient sync --with_branch_heads -r $WEBRTC_COMMIT
 git apply $PATCH_DIR\4k.patch
 Pop-Location
@@ -87,67 +93,43 @@ Get-PSDrive
 
 Push-Location $WEBRTC_DIR\src
   # WebRTC ビルド
-  gn gen ..\build_debug --args='is_debug=true treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true use_custom_libcxx=false'
-  ninja -C "$WEBRTC_DIR\build_debug"
+  gn gen $WEBRTC_BUILD_DIR\debug --args='is_debug=true treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true use_custom_libcxx=false'
+  ninja -C "$WEBRTC_BUILD_DIR\debug"
 
-  gn gen ..\build_release --args='is_debug=false treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true strip_debug_info=true symbol_level=0 use_custom_libcxx=false'
-  ninja -C "$WEBRTC_DIR\build_release"
+  gn gen $WEBRTC_BUILD_DIR\release --args='is_debug=false treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true strip_debug_info=true symbol_level=0 use_custom_libcxx=false'
+  ninja -C "$WEBRTC_BUILD_DIR\release"
 Pop-Location
 
-ninja -C "$WEBRTC_DIR\build_debug" audio_device_module_from_input_and_output
-ninja -C "$WEBRTC_DIR\build_release" audio_device_module_from_input_and_output
+foreach ($build in @("debug", "release")) {
+  ninja -C "$WEBRTC_BUILD_DIR\$build" audio_device_module_from_input_and_output
 
-# このままだと webrtc.lib に含まれないファイルがあるので、いくつか追加する
-Push-Location $WEBRTC_DIR\build_debug\obj
-  lib.exe `
-    /out:$WEBRTC_DIR\build_debug\webrtc.lib webrtc.lib `
-    modules\audio_device\audio_device_module_from_input_and_output\audio_device_factory.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\audio_device_module_win.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\core_audio_base_win.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\core_audio_input_win.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\core_audio_output_win.obj `
-    modules\audio_device\windows_core_audio_utility\core_audio_utility_win.obj `
-    modules\audio_device\audio_device_name\audio_device_name.obj
-Pop-Location
-
-Push-Location $WEBRTC_DIR\build_release\obj
-  lib.exe `
-    /out:$WEBRTC_DIR\build_release\webrtc.lib webrtc.lib `
-    modules\audio_device\audio_device_module_from_input_and_output\audio_device_factory.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\audio_device_module_win.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\core_audio_base_win.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\core_audio_input_win.obj `
-    modules\audio_device\audio_device_module_from_input_and_output\core_audio_output_win.obj `
-    modules\audio_device\windows_core_audio_utility\core_audio_utility_win.obj `
-    modules\audio_device\audio_device_name\audio_device_name.obj
-Pop-Location
+  # このままだと webrtc.lib に含まれないファイルがあるので、いくつか追加する
+  Push-Location $WEBRTC_BUILD_DIR\$build\obj
+    lib.exe `
+      /out:$WEBRTC_BUILD_DIR\$build\webrtc.lib webrtc.lib `
+      api\task_queue\default_task_queue_factory\default_task_queue_factory_win.obj `
+      rtc_base\rtc_task_queue_win\task_queue_win.obj `
+      modules\audio_device\audio_device_module_from_input_and_output\audio_device_factory.obj `
+      modules\audio_device\audio_device_module_from_input_and_output\audio_device_module_win.obj `
+      modules\audio_device\audio_device_module_from_input_and_output\core_audio_base_win.obj `
+      modules\audio_device\audio_device_module_from_input_and_output\core_audio_input_win.obj `
+      modules\audio_device\audio_device_module_from_input_and_output\core_audio_output_win.obj `
+      modules\audio_device\windows_core_audio_utility\core_audio_utility_win.obj `
+      modules\audio_device\audio_device_name\audio_device_name.obj
+  Pop-Location
+  Move-Item $WEBRTC_BUILD_DIR\$build\webrtc.lib $WEBRTC_BUILD_DIR\$build\obj\webrtc.lib -Force
+}
 
 # WebRTC のヘッダーだけをパッケージングする
-New-Item $REPO_DIR\release\include -ItemType Directory -Force
-New-Item $REPO_DIR\release\debug -ItemType Directory -Force
-New-Item $REPO_DIR\release\release -ItemType Directory -Force
-robocopy "$WEBRTC_DIR\src" "$REPO_DIR\release\include" *.h
-robocopy "$WEBRTC_DIR\src\api" "$REPO_DIR\release\include\api" *.h /S
-robocopy "$WEBRTC_DIR\src\audio" "$REPO_DIR\release\include\audio" *.h /S
-robocopy "$WEBRTC_DIR\src\base" "$REPO_DIR\release\include\base" *.h /S
-robocopy "$WEBRTC_DIR\src\call" "$REPO_DIR\release\include\call" *.h /S
-robocopy "$WEBRTC_DIR\src\common_audio" "$REPO_DIR\release\include\common_audio" *.h /S
-robocopy "$WEBRTC_DIR\src\common_video" "$REPO_DIR\release\include\common_video" *.h /S
-robocopy "$WEBRTC_DIR\src\logging" "$REPO_DIR\release\include\logging" *.h /S
-robocopy "$WEBRTC_DIR\src\media" "$REPO_DIR\release\include\media" *.h /S
-robocopy "$WEBRTC_DIR\src\modules" "$REPO_DIR\release\include\modules" *.h /S
-robocopy "$WEBRTC_DIR\src\p2p" "$REPO_DIR\release\include\p2p" *.h /S
-robocopy "$WEBRTC_DIR\src\pc" "$REPO_DIR\release\include\pc" *.h /S
-robocopy "$WEBRTC_DIR\src\rtc_base" "$REPO_DIR\release\include\rtc_base" *.h /S
-robocopy "$WEBRTC_DIR\src\rtc_tools" "$REPO_DIR\release\include\rtc_tools" *.h /S
-robocopy "$WEBRTC_DIR\src\system_wrappers" "$REPO_DIR\release\include\system_wrappers" *.h /S
-robocopy "$WEBRTC_DIR\src\video" "$REPO_DIR\release\include\video" *.h /S
-robocopy "$WEBRTC_DIR\src\third_party\abseil-cpp\absl" "$REPO_DIR\release\include\absl" *.h /S
-robocopy "$WEBRTC_DIR\src\third_party\boringssl\src\include" "$REPO_DIR\release\include" *.h /S
-robocopy "$WEBRTC_DIR\src\third_party\jsoncpp\source\include" "$REPO_DIR\release\include" *.h /S
-robocopy "$WEBRTC_DIR\src\third_party\libyuv\include" "$REPO_DIR\release\include" *.h /S
-Move-Item $WEBRTC_DIR\build_debug\webrtc.lib $REPO_DIR\release\debug\webrtc.lib -Force
-Move-Item $WEBRTC_DIR\build_release\webrtc.lib $REPO_DIR\release\release\webrtc.lib -Force
-Copy-Item $REPO_DIR\NOTICE $REPO_DIR\release\NOTICE
-$WEBRTC_VERSION | Out-File $REPO_DIR\release\VERSION
+if (Test-Path $REPO_DIR\package) {
+  Remove-Item -Force -Recurse -Path $REPO_DIR\package
+}
+New-Item $REPO_DIR\package\include -ItemType Directory -Force
+robocopy "$WEBRTC_DIR\src" "$REPO_DIR\package\include" *.h *.hpp /S
 
+foreach ($build in @("debug", "release")) {
+  New-Item $REPO_DIR\package\$build -ItemType Directory -Force
+  Copy-Item $WEBRTC_BUILD_DIR\$build\obj\webrtc.lib $REPO_DIR\package\$build\
+}
+Copy-Item $REPO_DIR\NOTICE $REPO_DIR\package\NOTICE
+$WEBRTC_VERSION | Out-File $REPO_DIR\package\VERSION
