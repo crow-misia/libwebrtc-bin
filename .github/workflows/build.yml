@@ -20,7 +20,7 @@ jobs:
         run: df -hT
       -
         name: Build for arm
-        run: make arm.clean arm.build arm.copy
+        run: make arm
         working-directory: build
         timeout-minutes: 120
       -
@@ -30,11 +30,11 @@ jobs:
         name: Upload artifact for arm
         uses: actions/upload-artifact@v1
         with:
-          name: libwebrtc-linux-arm
-          path: package
+          name: libwebrtc-linux-arm.tar.xz
+          path: package/libwebrtc-linux-arm.tar.xz
       -
         name: Build for arm64
-        run: make arm64.clean arm64.build arm64.copy
+        run: make arm64
         working-directory: build
         timeout-minutes: 120
       -
@@ -44,11 +44,11 @@ jobs:
         name: Upload artifact for arm64
         uses: actions/upload-artifact@v1
         with:
-          name: libwebrtc-linux-arm64
-          path: package
+          name: libwebrtc-linux-arm64.tar.xz
+          path: package/libwebrtc-linux-arm64.tar.xz
       -
         name: Build for x64
-        run: make x64.clean x64.build x64.copy
+        run: make x64
         working-directory: build
         timeout-minutes: 120
       -
@@ -58,8 +58,8 @@ jobs:
         name: Upload artifact for x64 
         uses: actions/upload-artifact@v1
         with:
-          name: libwebrtc-linux-x64
-          path: package
+          name: libwebrtc-linux-x64.tar.xz
+          path: package/libwebrtc-linux-x64.tar.xz
   build_macos:
     name: Build for macOS
     runs-on: macos-latest
@@ -72,7 +72,7 @@ jobs:
         run: df -h
       -
         name: Build for macOS
-        run: make macos.clean macos.build macos.copy
+        run: make macos
         working-directory: build
         timeout-minutes: 120
       -
@@ -82,8 +82,8 @@ jobs:
         name: Upload artifact for macOS
         uses: actions/upload-artifact@v1
         with:
-          name: libwebrtc-macos-x64
-          path: package
+          name: libwebrtc-macos-x64.tar.xz
+          path: package/libwebrtc-macos-x64.tar.xz
   build_win:
     name: Build for Windows
     runs-on: windows-latest
@@ -102,6 +102,5 @@ jobs:
         name: Upload artifact for Windows
         uses: actions/upload-artifact@v1
         with:
-          name: libwebrtc-win-x64
-          path: package
-
+          name: libwebrtc-win-x64.zip
+          path: package/libwebrtc-win-x64.zip

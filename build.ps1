@@ -35,9 +35,10 @@ if ($path) {
 
 $REPO_DIR = Resolve-Path "."
 $WEBRTC_DIR = "C:\webrtc"
-$WEBRTC_BUILD_DIR = "C:\webrtc_build"
-$DEPOT_TOOLS_DIR = "$REPO_DIR\depot_tools"
-$PATCH_DIR = "REPO_DIR\patch"
+$BUILD_DIR = "C:\webrtc_build"
+$DEPOT_TOOLS_DIR = Join-Path $REPO_DIR.Path "depot_tools"
+$PATCH_DIR = Join-Path $REPO_DIR.Path "patch"
+$PACKAGE_DIR = Join-Path $REPO_DIR.Path "package"
 
 # WebRTC ビルドに必要な環境変数の設定
 $Env:GYP_MSVS_VERSION = "2019"
@@ -64,12 +65,17 @@ Push-Location $WEBRTC_DIR
 if (Test-Path .gclient) {
   Push-Location src
   git checkout .
-  git clean -df .
+  git clean -df
+  Pop-Location
+
+  Push-Location src\build
+  git checkout .
+  git clean -xdf
   Pop-Location
 
   Push-Location src\third_party
   git checkout .
-  git clean -df .
+  git clean -df
   Pop-Location
 } else {
   if (Test-Path $DEPOT_TOOLS_DIR\metrics.cfg) {
@@ -81,8 +87,8 @@ if (Test-Path .gclient) {
   fetch --nohooks webrtc
 }
 
-if (!(Test-Path $WEBRTC_BUILD_DIR)) {
-  mkdir $WEBRTC_BUILD_DIR
+if (!(Test-Path $BUILD_DIR)) {
+  mkdir $BUILD_DIR
 }
 
 gclient sync --with_branch_heads -r $WEBRTC_COMMIT
@@ -93,20 +99,20 @@ Get-PSDrive
 
 Push-Location $WEBRTC_DIR\src
   # WebRTC ビルド
-  gn gen $WEBRTC_BUILD_DIR\debug --args='is_debug=true treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true use_custom_libcxx=false'
-  ninja -C "$WEBRTC_BUILD_DIR\debug"
+  gn gen $BUILD_DIR\debug --args='is_debug=true treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true use_custom_libcxx=false'
+  ninja -C "$BUILD_DIR\debug"
 
-  gn gen $WEBRTC_BUILD_DIR\release --args='is_debug=false treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true strip_debug_info=true symbol_level=0 use_custom_libcxx=false'
-  ninja -C "$WEBRTC_BUILD_DIR\release"
+  gn gen $BUILD_DIR\release --args='is_debug=false treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_examples=false is_component_build=false use_rtti=true strip_debug_info=true symbol_level=0 use_custom_libcxx=false'
+  ninja -C "$BUILD_DIR\release"
 Pop-Location
 
 foreach ($build in @("debug", "release")) {
-  ninja -C "$WEBRTC_BUILD_DIR\$build" audio_device_module_from_input_and_output
+  ninja -C "$BUILD_DIR\$build" audio_device_module_from_input_and_output
 
   # このままだと webrtc.lib に含まれないファイルがあるので、いくつか追加する
-  Push-Location $WEBRTC_BUILD_DIR\$build\obj
+  Push-Location $BUILD_DIR\$build\obj
     lib.exe `
-      /out:$WEBRTC_BUILD_DIR\$build\webrtc.lib webrtc.lib `
+      /out:$BUILD_DIR\$build\webrtc.lib webrtc.lib `
       api\task_queue\default_task_queue_factory\default_task_queue_factory_win.obj `
       rtc_base\rtc_task_queue_win\task_queue_win.obj `
       modules\audio_device\audio_device_module_from_input_and_output\audio_device_factory.obj `
@@ -117,19 +123,31 @@ foreach ($build in @("debug", "release")) {
       modules\audio_device\windows_core_audio_utility\core_audio_utility_win.obj `
       modules\audio_device\audio_device_name\audio_device_name.obj
   Pop-Location
-  Move-Item $WEBRTC_BUILD_DIR\$build\webrtc.lib $WEBRTC_BUILD_DIR\$build\obj\webrtc.lib -Force
+  Move-Item $BUILD_DIR\$build\webrtc.lib $BUILD_DIR\$build\obj\webrtc.lib -Force
 }
 
 # WebRTC のヘッダーだけをパッケージングする
-if (Test-Path $REPO_DIR\package) {
-  Remove-Item -Force -Recurse -Path $REPO_DIR\package
+if (Test-Path $BUILD_DIR\package) {
+  Remove-Item -Force -Recurse -Path $BUILD_DIR_DIR\package
 }
-New-Item $REPO_DIR\package\include -ItemType Directory -Force
-robocopy "$WEBRTC_DIR\src" "$REPO_DIR\package\include" *.h *.hpp /S
+New-Item $BUILD_DIR\package\webrtc\include -ItemType Directory -Force
+robocopy "$WEBRTC_DIR\src" "$BUILD_DIR\package\webrtc\include" *.h *.hpp /S
 
 foreach ($build in @("debug", "release")) {
-  New-Item $REPO_DIR\package\$build -ItemType Directory -Force
-  Copy-Item $WEBRTC_BUILD_DIR\$build\obj\webrtc.lib $REPO_DIR\package\$build\
+  New-Item $BUILD_DIR\package\webrtc\$build -ItemType Directory -Force
+  Copy-Item $BUILD_DIR\$build\obj\webrtc.lib $BUILD_DIR\package\webrtc\$build\
 }
-Copy-Item $REPO_DIR\NOTICE $REPO_DIR\package\NOTICE
-$WEBRTC_VERSION | Out-File $REPO_DIR\package\VERSION
+Copy-Item $REPO_DIR\NOTICE $BUILD_DIR\package\webrtc\NOTICE
+$WEBRTC_VERSION | Out-File $BUILD_DIR\package\webrtc\VERSION
+
+# ファイルを圧縮する
+if (!Test-Path $PACKAGE_DIR)) {
+  New-Item $PACKAGE_DIR -ItemType Directory -Force
+}
+if (Test-Path $PACKAGE_DIR\libwebrtc-win-x64.zip) {
+  Remove-Item -Force -Path $PACKAGE_DIR\libwebrtc-win-x64.zip
+}
+Push-Location $BUILD_DIR\package
+  Compress-Archive -DestinationPath $PACKAGE_DIR\libwebrtc-win-x64.zip -Path webrtc -Force
+Pop-Location
+
