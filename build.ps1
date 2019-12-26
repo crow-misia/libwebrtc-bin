@@ -141,7 +141,7 @@ Copy-Item $REPO_DIR\NOTICE $BUILD_DIR\package\webrtc\NOTICE
 $WEBRTC_VERSION | Out-File $BUILD_DIR\package\webrtc\VERSION
 
 # ファイルを圧縮する
-if (!Test-Path $PACKAGE_DIR)) {
+if (!(Test-Path $PACKAGE_DIR)) {
   New-Item $PACKAGE_DIR -ItemType Directory -Force
 }
 if (Test-Path $PACKAGE_DIR\libwebrtc-win-x64.zip) {
