@@ -11,8 +11,15 @@ foreach($line in $lines){
   }
 }
 
+$7Z_DIR = Join-Path (Resolve-Path ".").Path "7z"
+
 if (!(Test-Path vswhere.exe)) {
   Invoke-WebRequest -Uri "https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe" -OutFile vswhere.exe
+}
+
+if (!(Test-Path $7Z_DIR\7z.exe)) {
+  Invoke-WebRequest -Uri "https://jaist.dl.sourceforge.net/project/sevenzip/7-Zip/19.00/7z1900-x64.exe" -OutFile 7z-x64.exe
+  ./7z-x64.exe /S /D="""$7Z_DIR"""
 }
 
 # vsdevcmd.bat の設定を入れる
@@ -144,10 +151,10 @@ $WEBRTC_VERSION | Out-File $BUILD_DIR\package\webrtc\VERSION
 if (!(Test-Path $PACKAGE_DIR)) {
   New-Item $PACKAGE_DIR -ItemType Directory -Force
 }
-if (Test-Path $PACKAGE_DIR\libwebrtc-win-x64.zip) {
-  Remove-Item -Force -Path $PACKAGE_DIR\libwebrtc-win-x64.zip
+if (Test-Path $PACKAGE_DIR\libwebrtc-win-x64.7z) {
+  Remove-Item -Force -Path $PACKAGE_DIR\libwebrtc-win-x64.7z
 }
-Push-Location $BUILD_DIR\package
-  Compress-Archive -DestinationPath $PACKAGE_DIR\libwebrtc-win-x64.zip -Path webrtc -Force
+Push-Location $BUILD_DIR\package\webrtc
+  cmd /s /c """$7Z_DIR\7z.exe""" a -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
 Pop-Location
 

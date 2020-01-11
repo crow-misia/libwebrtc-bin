@@ -94,8 +94,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: libwebrtc-win-x64.zip
-          path: package/libwebrtc-win-x64.zip
+          name: libwebrtc-win-x64.7z
+          path: package/libwebrtc-win-x64.7z
   release:
     name: Release
     if: contains(github.ref, 'tags/v')
@@ -126,7 +126,7 @@ jobs:
       - name: Download Windows
         uses: actions/download-artifact@v1
         with:
-          name: libwebrtc-win-x64.zip
+          name: libwebrtc-win-x64.7z
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
@@ -177,6 +177,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-win-x64.zip/libwebrtc-win-x64.zip
-          asset_name: libwebrtc-win-x64.zip
-          asset_content_type: application/zip
+          asset_path: libwebrtc-win-x64.7z/libwebrtc-win-x64.7z
+          asset_name: libwebrtc-win-x64.7z
+          asset_content_type: application/x-7z-compressed
