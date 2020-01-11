@@ -155,6 +155,6 @@ if (Test-Path $PACKAGE_DIR\libwebrtc-win-x64.7z) {
   Remove-Item -Force -Path $PACKAGE_DIR\libwebrtc-win-x64.7z
 }
 Push-Location $BUILD_DIR\package\webrtc
-  cmd /s /c """$7Z_DIR\7z.exe""" a -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
+  cmd /s /c """$7Z_DIR\7z.exe""" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
 Pop-Location
 
