@@ -138,7 +138,7 @@ if (Test-Path $BUILD_DIR\package) {
   Remove-Item -Force -Recurse -Path $BUILD_DIR_DIR\package
 }
 New-Item $BUILD_DIR\package\webrtc\include -ItemType Directory -Force
-robocopy "$WEBRTC_DIR\src" "$BUILD_DIR\package\webrtc\include" *.h *.hpp /S
+robocopy "$WEBRTC_DIR\src" "$BUILD_DIR\package\webrtc\include" *.h *.hpp /S /NP /NS /NC /NFL /NDL
 
 foreach ($build in @("debug", "release")) {
   New-Item $BUILD_DIR\package\webrtc\$build -ItemType Directory -Force
