@@ -10,7 +10,13 @@ TARGET_CPU ?= arm
 include ../common.mk
 
 .PHONY: all
-all: clean build compress
+all: clean build package
+
+.PHONY: package
+package: common-package
+
+.PHONY: copy
+copy: common-copy
 
 .PHONY: build
 build: download

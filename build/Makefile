@@ -80,13 +80,10 @@ depot_tools: prepare
 	  git reset --hard; \
 	  git fetch; \
 	  git checkout -f origin/HEAD; \
-	  git clean -xfd; \
 	else \
 	  echo "Getting depot_tools ..."; \
 	  git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $(DEPOT_TOOLS_DIR); \
-	  cd $(DEPOT_TOOLS_DIR); \
-	  git checkout -f origin/HEAD; \
-	fi;
+	fi
 
 .PHONY: fetch
 fetch: depot_tools
@@ -95,10 +92,10 @@ fetch: depot_tools
 	&& if [ -f $(CACHE_DIR)/.gclient ]; then \
 	  echo "Syncing webrtc ..."; \
 	  cd $(CACHE_DIR)/src; \
-	  git checkout .; \
+	  git reset --hard; \
 	  git clean -xdf; \
 	  cd third_party; \
-	  git checkout .; \
+	  git reset --hard; \
 	  git clean -xdf; \
 	else \
 	  echo "Getting WEBRTC ..."; \
@@ -109,16 +106,13 @@ fetch: depot_tools
 	&& cd $(CACHE_DIR)/src \
 	&& git fetch \
 	&& git checkout -f $(WEBRTC_COMMIT) \
-	&& cd $(CACHE_DIR) \
-	&& gclient sync -Rv
+	&& gclient sync
 
 .PHONY: sync
 sync:
 ifneq ($(CACHE_DIR),$(WEBRTC_DIR))
 	rm -rf $(WEBRTC_DIR)
 	cp -r $(CACHE_DIR) $(WEBRTC_DIR)
-else
-	:
 endif
 
 .PHONY: patch

@@ -6,5 +6,5 @@ PACKAGE_NAMES= \
   arm \
   arm64 \
   x64 \
-  macos
-
+  macos \
+  ios

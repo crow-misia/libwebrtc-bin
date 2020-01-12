@@ -96,6 +96,25 @@ jobs:
         with:
           name: libwebrtc-win-x64.7z
           path: package/libwebrtc-win-x64.7z
+  build-ios:
+    name: Build for iOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Output Disk size
+        run: df -h
+      - name: Build
+        run: make ios
+        working-directory: build
+        timeout-minutes: 120
+      - name: Output Disk size
+        run: df -h
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: libwebrtc-ios.zip
+          path: package/WebRTC.framework.zip
   release:
     name: Release
     if: contains(github.ref, 'tags/v')
@@ -180,3 +199,12 @@ jobs:
           asset_path: libwebrtc-win-x64.7z/libwebrtc-win-x64.7z
           asset_name: libwebrtc-win-x64.7z
           asset_content_type: application/x-7z-compressed
+      - name: Upload ios Release Asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: libwebrtc-ios.zip/WebRTC.framework.zip
+          asset_name: WebRTC.framework.zip
+          asset_content_type: application/zip
