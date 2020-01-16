@@ -44,8 +44,11 @@ $(1): $(1).clean $(1).build $(1).package
 $(1).clean:
 	make -C $(1) clean
 
+$(1).fetch: depot_tools
+	$(SCRIPTS_DIR)/fetch_webrtc.sh $(CACHE_DIR) $(DEPOT_TOOLS_DIR) $(WEBRTC_COMMIT) $(CONFIG_DIR)/$(1)
+
 .PHONY: $(1).build
-$(1).build: prepare fetch sync patch
+$(1).build: prepare $(1).fetch sync patch
 	make $(SUB_DIR_OPTS) -C $(1) build
 
 .PHONY: $(1).build-nofetch
@@ -84,29 +87,6 @@ depot_tools: prepare
 	  echo "Getting depot_tools ..."; \
 	  git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $(DEPOT_TOOLS_DIR); \
 	fi
-
-.PHONY: fetch
-fetch: depot_tools
-	mkdir -p $(CACHE_DIR) \
-	&& cd $(CACHE_DIR) \
-	&& if [ -f $(CACHE_DIR)/.gclient ]; then \
-	  echo "Syncing webrtc ..."; \
-	  cd $(CACHE_DIR)/src; \
-	  git reset --hard; \
-	  git clean -xdf; \
-	  cd third_party; \
-	  git reset --hard; \
-	  git clean -xdf; \
-	else \
-	  echo "Getting WEBRTC ..."; \
-	  rm -f $(DEPOT_TOOLS_DIR)/metrics.cfg; \
-	  rm -rf $(CACHE_DIR)/src; \
-	  fetch --nohooks webrtc; \
-	fi \
-	&& cd $(CACHE_DIR)/src \
-	&& git fetch \
-	&& git checkout -f $(WEBRTC_COMMIT) \
-	&& gclient sync
 
 .PHONY: sync
 sync:

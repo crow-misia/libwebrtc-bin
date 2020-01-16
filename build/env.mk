@@ -12,6 +12,8 @@ THIRD_PARTY_DIR ?= $(CACHE_DIR)/third_party
 CCACHE ?= $(THIRD_PARTY_DIR)/ccache
 DEPOT_TOOLS_DIR ?= $(THIRD_PARTY_DIR)/depot_tools
 PATCH_DIR ?= $(BASE_DIR)/patch
+SCRIPTS_DIR ?= $(BASE_DIR)/scripts
+CONFIG_DIR ?= $(BASE_DIR)/config
 PACKAGE_DIR ?= $(BASE_DIR)/package
 
 export PATH := $(DEPOT_TOOLS_DIR):$(PATH)
