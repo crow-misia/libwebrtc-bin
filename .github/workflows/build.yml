@@ -115,7 +115,7 @@ jobs:
         with:
           name: libwebrtc-ios.zip
           path: package/WebRTC.framework.zip
-    build-ios:
+  build-android:
     name: Build for Android
     runs-on: ubuntu-latest
     steps:
@@ -227,7 +227,7 @@ jobs:
           asset_path: libwebrtc-ios.zip/WebRTC.framework.zip
           asset_name: WebRTC.framework.zip
           asset_content_type: application/zip
-      - name: Upload macos-x64 Release Asset
+      - name: Upload Android Release Asset
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
