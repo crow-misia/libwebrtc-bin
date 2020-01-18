@@ -15,8 +15,8 @@ all: clean build package
 .PHONY: package
 package:
 	mkdir -p $(PACKAGE_DIR) && \
-	cd $(PACKAGE_DIR) && \
-	tar -Jcf $(subst $(space),,$(PACKAGE_NAME)).tar.xz libwebrtc.aar LICENSE.md
+	cd $(BUILD_DIR) && \
+	tar -Jcf $(PACKAGE_DIR)/$(subst $(space),,$(PACKAGE_NAME)).tar.xz libwebrtc.aar LICENSE.md
 
 .PHONY: build
 build:
