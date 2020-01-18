@@ -182,6 +182,8 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: libwebrtc-linux-arm.tar.xz/libwebrtc-linux-arm.tar.xz
+          asset_name: libwebrtc-linux-arm.tar.xz
+          asset_content_type: application/x-xz
       - name: Upload linux-arm64 Release Asset
         uses: actions/upload-release-asset@v1.0.1
         env:
