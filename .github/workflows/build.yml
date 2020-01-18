@@ -13,7 +13,7 @@ jobs:
       - name: Output Disk size
         run: df -hT
       - name: Build
-        run: make arm
+        run: make USE_CCACHE=0 arm
         working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
@@ -32,7 +32,7 @@ jobs:
       - name: Output Disk size
         run: df -hT
       - name: Build
-        run: make arm64
+        run: make USE_CCACHE=0 arm64
         working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
@@ -51,7 +51,7 @@ jobs:
       - name: Output Disk size
         run: df -hT
       - name: Build
-        run: make x64
+        run: make USE_CCACHE=0 x64
         working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
@@ -70,7 +70,7 @@ jobs:
       - name: Output Disk size
         run: df -h
       - name: Build
-        run: make macos
+        run: make USE_CCACHE=0 macos
         working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
@@ -105,7 +105,7 @@ jobs:
       - name: Output Disk size
         run: df -h
       - name: Build
-        run: make ios
+        run: make USE_CCACHE=0 ios
         working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
@@ -115,9 +115,28 @@ jobs:
         with:
           name: libwebrtc-ios.zip
           path: package/WebRTC.framework.zip
+    build-ios:
+    name: Build for Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Output Disk size
+        run: df -h
+      - name: Build
+        run: make USE_CCACHE=0 android
+        working-directory: build
+        timeout-minutes: 120
+      - name: Output Disk size
+        run: df -h
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: libwebrtc-android.tar.xz
+          path: package/libwebrtc-android.tar.xz
   release:
     name: Release
-    if: contains(github.ref, 'tags/v')
+    if: contains(github.ref, 'tags/')
     needs:
       - build-linux-arm
       - build-linux-arm64
@@ -208,3 +227,12 @@ jobs:
           asset_path: libwebrtc-ios.zip/WebRTC.framework.zip
           asset_name: WebRTC.framework.zip
           asset_content_type: application/zip
+      - name: Upload macos-x64 Release Asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: libwebrtc-android.tar.xz/libwebrtc-android.tar.xz
+          asset_name: libwebrtc-android.tar.xz
+          asset_content_type: application/x-xz

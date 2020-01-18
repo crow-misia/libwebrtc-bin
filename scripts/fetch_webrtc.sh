@@ -4,8 +4,7 @@ CACHE_DIR=$(cd $1 && pwd)
 DEPOT_TOOLS_DIR=$(cd $2 && pwd)
 WEBRTC_COMMIT=$3
 CONFIG_DIR=$(cd $4 && pwd)
-GCLIENT_CONFIG=$CONFIG_DIR/GCLIENT
-TARGET=`cat ${GCLIENT_CONFIG}`
+FETCH_TARGET=`cat ${CONFIG_DIR}/webrtc_fetch`
 
 mkdir -p $CACHE_DIR
 cd $CACHE_DIR
@@ -21,7 +20,7 @@ else
   echo "Getting WEBRTC ...";
   rm -f $DEPOT_TOOLS_DIR/metrics.cfg;
   rm -rf $CACHE_DIR/src;
-  fetch --nohooks $TARGET;
+  fetch --nohooks $FETCH_TARGET;
 fi
 cd $CACHE_DIR/src
 git fetch

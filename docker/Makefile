@@ -53,23 +53,23 @@ $(1).prepare:
 
 .PHONY: $(1).edit
 $(1).edit: $(1).prepare
-	mkdir -p $(BASE_DIR)/release
-	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR)/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+	mkdir -p $(PACKAGE_DIR)
+	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
 
 .PHONY: $(1).edit-nobuild
 $(1).edit-nobuild:
-	mkdir -p $(BASE_DIR)/release
-	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR)/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+	mkdir -p $(PACKAGE_DIR)
+	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
 
 .PHONY: $(1).nobuild
 $(1).nobuild:
-	mkdir -p $(BASE_DIR)/release
-	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR)/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
+	mkdir -p $(PACKAGE_DIR)
+	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
 
 .PHONY: $(1)
 $(1): $(1).prepare
-	mkdir -p $(BASE_DIR)/release
-	$(DOCKER) run -it --rm -v $(BASE_DIR)/patch:/root/patch:Z -v $(BASE_DIR)/release:/root/release:Z libwebrtc:$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
+	mkdir -p $(PACKAGE_DIR)
+	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
 
 endef
 
