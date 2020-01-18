@@ -143,6 +143,8 @@ jobs:
       - build-linux-x64
       - build-macos
       - build-windows
+      - build-ios
+      - build-android
     runs-on: ubuntu-latest
     steps:
       - name: Download linux-arm
@@ -165,6 +167,14 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: libwebrtc-win-x64.7z
+      - name: Download iOS
+        uses: actions/download-artifact@v1
+        with:
+          name: libwebrtc-ios.zip
+      - name: Download Android
+        uses: actions/download-artifact@v1
+        with:
+          name: libwebrtc-android.tar.xz
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
