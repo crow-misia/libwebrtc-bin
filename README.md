@@ -40,6 +40,20 @@ supported platforms and architectures.
     <td align="center">-</td>
     <td align="center">-</td>
   </tr>
+  <tr>
+    <th align="center">iOS</th>
+    <td align="center">-</td>
+    <td align="center">✔</td>
+    <td align="center">-</td>
+    <td align="center">✔</td>
+  </tr>
+  <tr>
+    <th align="center">Android</th>
+    <td align="center">✔</td>
+    <td align="center">✔</td>
+    <td align="center">✔</td>
+    <td align="center">✔</td>
+  </tr>
 </table>
 
 ## Prerequisites
@@ -50,7 +64,7 @@ supported platforms and architectures.
 
 ## Building
 
-### Linux / macOS
+### Linux / macOS / iOS / Android
 
 ```
 cd build
