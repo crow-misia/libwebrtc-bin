@@ -147,6 +147,8 @@ jobs:
       - build-android
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Download linux-arm
         uses: actions/download-artifact@v1
         with:
@@ -248,3 +250,8 @@ jobs:
           asset_path: libwebrtc-android.tar.xz/libwebrtc-android.tar.xz
           asset_name: libwebrtc-android.tar.xz
           asset_content_type: application/x-xz
+      - name: Publish Android Library
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+        run: ./publishAar.sh
+
