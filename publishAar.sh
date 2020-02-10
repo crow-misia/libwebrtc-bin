@@ -16,7 +16,7 @@ mvn deploy:deploy-file \
     -Dfile=libwebrtc.aar \
     -Dpackaging=aar \
     -Dversion=${VERSION} \
-    -DgroupId=com.github.crow-misia \
-    -DartifactId=webrtc-android \
-    -Dregistry=https://maven.pkg.github.com/crow-misia \
-    -Dtoken=${GITHUB_TOKEN}
+    -DgroupId=crow-misia \
+    -DartifactId=webrtc \
+    -DrepositoryId=github \
+    -Durl=https://maven.pkg.github.com/crow-misia/libwebrtc-bin
