@@ -8,8 +8,9 @@ jobs:
     name: Build for Linux arm
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
+      - name: Disk Cleanup
+        run: docker rmi `docker images -q -a`
       - name: Output Disk size
         run: df -hT
       - name: Build
@@ -27,8 +28,9 @@ jobs:
     name: Build for Linux arm64
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
+      - name: Disk Cleanup
+        run: docker rmi `docker images -q -a`
       - name: Output Disk size
         run: df -hT
       - name: Build
@@ -46,8 +48,9 @@ jobs:
     name: Build for Linux x64
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
+      - name: Disk Cleanup
+        run: docker rmi `docker images -q -a`
       - name: Output Disk size
         run: df -hT
       - name: Build
@@ -65,8 +68,7 @@ jobs:
     name: Build for macOS
     runs-on: macos-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
       - name: Output Disk size
         run: df -h
       - name: Build
@@ -84,8 +86,7 @@ jobs:
     name: Build for Windows
     runs-on: windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
       - name: Disk Cleanup
         run: .\disk_cleanup.bat
       - name: Build
@@ -100,8 +101,7 @@ jobs:
     name: Build for iOS
     runs-on: macos-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
       - name: Output Disk size
         run: df -h
       - name: Build
@@ -119,8 +119,9 @@ jobs:
     name: Build for Android
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
+      - name: Disk Cleanup
+        run: docker rmi `docker images -q -a`
       - name: Output Disk size
         run: df -h
       - name: Build
@@ -147,8 +148,7 @@ jobs:
       - build-android
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
       - name: Download linux-arm
         uses: actions/download-artifact@v1
         with:
