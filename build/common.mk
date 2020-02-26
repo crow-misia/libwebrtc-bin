@@ -34,7 +34,7 @@ endif
 
 .PHONY: common-clean
 clean:
-	rm -rf $(PACKAGE_DIR)
+	rm -rf $(PACKAGE_DIR)/*
 	rm -rf $(BUILD_DIR)
 
 .PHONY: download
