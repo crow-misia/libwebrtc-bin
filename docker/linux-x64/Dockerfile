@@ -16,7 +16,7 @@ RUN \
     python \
     pkg-config
 
-COPY config/arm/ /root/config/arm/
+COPY config/linux-x64/ /root/config/linux-x64/
 COPY build/ /root/build/
 COPY Makefile VERSION LICENSE NOTICE /root/
 COPY scripts/ /root/scripts/
@@ -26,5 +26,5 @@ RUN \
   --mount=type=cache,id=libwebrtc,target=/var/lib/apt \
   --mount=type=cache,id=libwebrtc,target=/root/webrtc-cache \
   cd /root \
-  && make USE_CCACHE=0 CACHE_DIR=/root/webrtc-cache -C build arm.fetch
+  && make USE_CCACHE=0 CACHE_DIR=/root/webrtc-cache -C build linux-x64.fetch
 

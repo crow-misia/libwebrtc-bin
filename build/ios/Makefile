@@ -16,7 +16,7 @@ all: clean build package
 package:
 	mkdir -p $(PACKAGE_DIR) && \
 	cd $(BUILD_DIR) && \
-	zip -9 -r $(PACKAGE_DIR)/WebRTC.framework.zip WebRTC.framework/*
+	zip -9 -r $(PACKAGE_DIR)/libwebrtc-ios.zip WebRTC.framework/*
 
 .PHONY: build
 build:

@@ -4,8 +4,15 @@ on:
   push:
 
 jobs:
-  build-linux-arm:
-    name: Build for Linux arm
+  build-linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - linux-arm
+          - linux-arm64
+          - linux-x64
+          - android
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -14,7 +21,7 @@ jobs:
       - name: Output Disk size
         run: df -hT
       - name: Build
-        run: make USE_CCACHE=0 arm
+        run: make USE_CCACHE=0 ${{ matrix.name }}
         working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
@@ -22,57 +29,17 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: libwebrtc-linux-arm.tar.xz
-          path: package/libwebrtc-linux-arm.tar.xz
-  build-linux-arm64:
-    name: Build for Linux arm64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Disk Cleanup
-        run: docker rmi `docker images -q -a`
-      - name: Output Disk size
-        run: df -hT
-      - name: Build
-        run: make USE_CCACHE=0 arm64
-        working-directory: build
-        timeout-minutes: 120
-      - name: Output Disk size
-        run: df -hT
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: libwebrtc-linux-arm64.tar.xz
-          path: package/libwebrtc-linux-arm64.tar.xz
-  build-linux-x64:
-    name: Build for Linux x64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Disk Cleanup
-        run: docker rmi `docker images -q -a`
-      - name: Output Disk size
-        run: df -hT
-      - name: Build
-        run: make USE_CCACHE=0 x64
-        working-directory: build
-        timeout-minutes: 120
-      - name: Output Disk size
-        run: df -hT
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: libwebrtc-linux-x64.tar.xz
-          path: package/libwebrtc-linux-x64.tar.xz
+          name: libwebrtc-${{ matrix.name }}.tar.xz
+          path: package/libwebrtc-${{ matrix.name }}.tar.xz
+
   build-macos:
-    name: Build for macOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
       - name: Output Disk size
         run: df -h
       - name: Build
-        run: make USE_CCACHE=0 macos
+        run: make USE_CCACHE=0 macos-x64
         working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
@@ -82,8 +49,8 @@ jobs:
         with:
           name: libwebrtc-macos-x64.tar.xz
           path: package/libwebrtc-macos-x64.tar.xz
+
   build-windows:
-    name: Build for Windows
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
@@ -97,8 +64,8 @@ jobs:
         with:
           name: libwebrtc-win-x64.7z
           path: package/libwebrtc-win-x64.7z
+
   build-ios:
-    name: Build for iOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
@@ -114,69 +81,18 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: libwebrtc-ios.zip
-          path: package/WebRTC.framework.zip
-  build-android:
-    name: Build for Android
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Disk Cleanup
-        run: docker rmi `docker images -q -a`
-      - name: Output Disk size
-        run: df -h
-      - name: Build
-        run: make USE_CCACHE=0 android
-        working-directory: build
-        timeout-minutes: 120
-      - name: Output Disk size
-        run: df -h
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: libwebrtc-android.tar.xz
-          path: package/libwebrtc-android.tar.xz
-  release:
-    name: Release
+          path: package/libwebrtc-ios.zip
+
+  setup-release:
+    name: Setup release
     if: contains(github.ref, 'tags/')
     needs:
-      - build-linux-arm
-      - build-linux-arm64
-      - build-linux-x64
+      - build-linux
       - build-macos
       - build-windows
       - build-ios
-      - build-android
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Download linux-arm
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-linux-arm.tar.xz
-      - name: Download linux-arm64
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-linux-arm64.tar.xz
-      - name: Download linux-x64
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-linux-x64.tar.xz
-      - name: Download macOS
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-macos-x64.tar.xz
-      - name: Download Windows
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-win-x64.7z
-      - name: Download iOS
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-ios.zip
-      - name: Download Android
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-android.tar.xz
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
@@ -185,71 +101,100 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: true
+          draft: false
           prerelease: false
-      - name: Upload linux-arm Release Asset
+      - name: Get url to upload to release from output
+        env:
+          url: ${{ steps.create_release.outputs.upload_url }}
+        run: |
+          mkdir artifact
+          echo $url > artifact/url.txt
+      - name: Upload artifact to share url with other jobs
+        uses: actions/upload-artifact@v1
+        with:
+          name: artifact
+          path: artifact/url.txt
+
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - linux-arm
+          - linux-arm64
+          - linux-x64
+          - macos-x64
+          - android
+          - ios
+          - win-x64
+        include:
+          - name: linux-arm
+            ext: tar.xz
+            filename: libwebrtc-linux-arm.tar.xz
+            type: application/x-xz
+          - name: linux-arm64
+            ext: tar.xz
+            filename: libwebrtc-linux-arm64.tar.xz
+            type: application/x-xz
+          - name: linux-x64
+            ext: tar.xz
+            filename: libwebrtc-linux-x64.tar.xz
+            type: application/x-xz
+          - name: macos-x64
+            ext: tar.xz
+            filename: libwebrtc-macox-x64.tar.xz
+            type: application/x-xz
+          - name: android
+            ext: tar.xz
+            filename: libwebrtc-android.tar.xz
+            type: application/x-xz
+          - name: ios
+            ext: zip
+            filename: WebRTC.framework.zip
+            type: application/zip
+          - name: win-x64
+            ext: 7z
+            filename: libwebrtc-win-x64.7z
+            type: application/x-7z-compressed
+    name: Release ${{ matrix.name }}
+    needs:
+      - setup-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download ${{ matrix.name }}
+        uses: actions/download-artifact@v1
+        with:
+          name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
+      - name: Download artifact to get url to upload to release
+        uses: actions/download-artifact@v1
+        with:
+          name: artifact
+      - name: Get url to upload to release from artifact
+        id: get_url
+        run: |
+          url=$(cat artifact/url.txt)
+          echo "##[set-output name=upload_url;]$url"
+      - name: Upload ${{ matrix.name }} Release asset
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-linux-arm.tar.xz/libwebrtc-linux-arm.tar.xz
-          asset_name: libwebrtc-linux-arm.tar.xz
-          asset_content_type: application/x-xz
-      - name: Upload linux-arm64 Release Asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+          upload_url: ${{ steps.get_url.outputs.upload_url }}
+          asset_path: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}/libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
+          asset_name: ${{ matrix.filename }}
+          asset_content_type: ${{ matrix.type }}
+
+  publish-android:
+    name: Publish Android
+    needs:
+      - setup-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Download Android
+        uses: actions/download-artifact@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-linux-arm64.tar.xz/libwebrtc-linux-arm64.tar.xz
-          asset_name: libwebrtc-linux-arm64.tar.xz
-          asset_content_type: application/x-xz
-      - name: Upload linux-x64 Release Asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-linux-x64.tar.xz/libwebrtc-linux-x64.tar.xz
-          asset_name: libwebrtc-linux-x64.tar.xz
-          asset_content_type: application/x-xz
-      - name: Upload macos-x64 Release Asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-macos-x64.tar.xz/libwebrtc-macos-x64.tar.xz
-          asset_name: libwebrtc-macos-x64.tar.xz
-          asset_content_type: application/x-xz
-      - name: Upload win-x64 Release Asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-win-x64.7z/libwebrtc-win-x64.7z
-          asset_name: libwebrtc-win-x64.7z
-          asset_content_type: application/x-7z-compressed
-      - name: Upload ios Release Asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-ios.zip/WebRTC.framework.zip
-          asset_name: WebRTC.framework.zip
-          asset_content_type: application/zip
-      - name: Upload Android Release Asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: libwebrtc-android.tar.xz/libwebrtc-android.tar.xz
-          asset_name: libwebrtc-android.tar.xz
-          asset_content_type: application/x-xz
+          name: libwebrtc-android.tar.xz
       - name: Publish Android Library
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}

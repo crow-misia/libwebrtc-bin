@@ -4,15 +4,15 @@ WEBRTC_SEMANTIC_VERSION=81.6.0
 WEBRTC_COMMIT=5d6a2a3e4fbae6605e937d60a113bc2a3386532d
 
 PACKAGE_NAMES= \
-  arm \
-  arm64 \
-  x64 \
-  macos \
+  linux-arm \
+  linux-arm64 \
+  linux-x64 \
+  macos-x64 \
   ios \
   android
 
 DOCKER_PACKAGE_NAMES= \
-  arm \
-  arm64 \
-  x64 \
+  linux-arm \
+  linux-arm64 \
+  linux-x64 \
   android
