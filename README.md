@@ -1,5 +1,6 @@
 # libwebrtc binaries
 
+![build](https://github.com/crow-misia/libwebrtc-bin/workflows/build/badge.svg)
 [![License](https://img.shields.io/github/license/crow-misia/libwebrtc-bin)](LICENSE)
 
 This repository contains build scripts that can be used to build statically linked libwebrtc binaries.
