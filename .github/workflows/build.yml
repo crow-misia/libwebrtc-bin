@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Disk Cleanup
-        run: docker rmi `docker images -q -a`
+        run: ./disk_cleanup.sh
       - name: Output Disk size
         run: df -hT
       - name: Build
