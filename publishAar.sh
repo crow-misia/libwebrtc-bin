@@ -8,15 +8,20 @@ while IFS="=" read -r key value; do
     esac
   done < ./VERSION
 
-echo $VERSION
+AAR_URL=https://github.com/crow-misia/libwebrtc-bin/releases/download/m${VERSION}/libwebrtc-android.tar.xz
 
-tar xf libwebrtc-android.tar.xz/libwebrtc-android.tar.xz
+echo AAR_URL=${AAR_URL}
 
-mvn deploy:deploy-file \
+mkdir -p package
+cd package
+
+curl -L -O ${AAR_URL}
+tar xf libwebrtc-android.tar.xz
+
+mvn install:install-file \
     -Dfile=libwebrtc.aar \
     -Dpackaging=aar \
     -Dversion=${VERSION} \
-    -DgroupId=crow-misia \
-    -DartifactId=webrtc \
-    -DrepositoryId=github \
-    -Durl=https://maven.pkg.github.com/crow-misia/libwebrtc-bin
+    -DgroupId=com.github.crow-misia \
+    -DartifactId=libwebrtc-bin
+

@@ -184,22 +184,3 @@ jobs:
           asset_name: ${{ matrix.filename }}
           asset_content_type: ${{ matrix.type }}
 
-  publish-android:
-    name: Publish Android
-    needs:
-      - setup-release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Download Android
-        uses: actions/download-artifact@v1
-        with:
-          name: libwebrtc-android.tar.xz
-      - name: Publish Android Library
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-        run: |
-          mkdir ~/.m2
-          echo "<settings><servers><server><id>github</id><username>OWNER</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-          ./publishAar.sh
-
