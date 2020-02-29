@@ -100,7 +100,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: Release m${{ github.ref }}
           draft: false
           prerelease: false
       - name: Get url to upload to release from output

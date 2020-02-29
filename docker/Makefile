@@ -11,7 +11,7 @@ define generateRules
 
 .PHONY: $(1)
 $(1):
-	make $(SUB_DIR_OPTS) CACHE_DIR=/root/webrtc-cache -C build $(1)
+	make $(SUB_DIR_OPTS) CACHE_DIR=/root/webrtc-cache -C build $(1).clean $(1).build-nofetch $(1).package
 
 .PHONY: $(1).clean
 $(1).clean:

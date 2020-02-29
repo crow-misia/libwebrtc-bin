@@ -96,7 +96,7 @@ ifneq ($(CACHE_DIR),$(WEBRTC_DIR))
 endif
 
 .PHONY: patch
-patch:
+patch: sync
 	echo "apply patches ..." \
 	&& cd $(WEBRTC_DIR)/src \
 	&& patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch \

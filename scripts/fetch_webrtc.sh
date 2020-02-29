@@ -13,9 +13,11 @@ if [ -f $CACHE_DIR/.gclient ]; then
   cd $CACHE_DIR/src;
   git reset --hard;
   git clean -xdf;
-  cd third_party;
-  git reset --hard;
-  git clean -xdf;
+  if [ -d $CACHE_DIR/src/third_party ]; then
+    cd $CACHE_DIR/src/third_party;
+    git reset --hard;
+    git clean -xdf;
+  fi
 else
   echo "Getting WEBRTC ...";
   rm -f $DEPOT_TOOLS_DIR/metrics.cfg;
