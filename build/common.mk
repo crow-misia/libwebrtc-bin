@@ -41,6 +41,14 @@ clean:
 download:
 	$(WEBRTC_DIR)/src/build/linux/sysroot_scripts/install-sysroot.py --arch=$(TARGET_CPU)
 
+.PHONY: common-patch
+common-patch:
+	echo "apply patches ..." \
+	&& cd $(WEBRTC_DIR)/src \
+	&& patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch \
+	&& patch -p2 < $(PATCH_DIR)/4k.patch \
+	&& patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch
+
 .PHONY: common-package
 common-package: copy
 	cd $(PACKAGE_DIR) && \

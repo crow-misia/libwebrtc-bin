@@ -18,7 +18,13 @@ package:
 	cd $(BUILD_DIR) && \
 	tar -Jcf $(PACKAGE_DIR)/$(subst $(space),,$(PACKAGE_NAME)).tar.xz libwebrtc.aar LICENSE.md
 
+.PHONY: patch
+patch: common-patch
+	cd $(SRC_DIR) \
+	&& patch -p2 < $(PATCH_DIR)/android_version.patch \
+	&& $(SCRIPTS_DIR)/generate_android_version.sh $(SRC_DIR) $(WEBRTC_COMMIT) $(WEBRTC_SEMANTIC_VERSION)
+
 .PHONY: build
-build:
+build: patch
 	cd $(SRC_DIR) && \
 	./tools_webrtc/android/build_aar.py --build-dir $(BUILD_DIR) --output $(BUILD_DIR)/libwebrtc.aar

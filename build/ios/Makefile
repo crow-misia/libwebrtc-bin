@@ -18,8 +18,11 @@ package:
 	cd $(BUILD_DIR) && \
 	zip -9 -r $(PACKAGE_DIR)/libwebrtc-ios.zip WebRTC.framework/*
 
+.PHONY: patch
+patch: common-patch
+
 .PHONY: build
-build:
+build: patch
 	cd $(SRC_DIR)/tools_webrtc/ios && \
 	./build_ios_libs.py --arch x64 arm64 -e -o $(BUILD_DIR)
 

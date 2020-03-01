@@ -40,6 +40,7 @@ include $(BASE_DIR)/build/env.mk
 WEBRTC_COMMIT_SHORT := $(shell echo $(WEBRTC_COMMIT) | cut -b 1-8)
 WEBRTC_VERSION_SHORT := $(shell echo '$(WEBRTC_VERSION)' | cut -b 1-3)
 IMAGE_VERSION := $(WEBRTC_VERSION_SHORT)-$(WEBRTC_COMMIT_SHORT)
+DOCKER_RUN_ARGS := -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z
 
 define generateRules
 
@@ -54,22 +55,22 @@ $(1).prepare:
 .PHONY: $(1).edit
 $(1).edit: $(1).prepare
 	mkdir -p $(PACKAGE_DIR)
-	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+	$(DOCKER) run $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
 
 .PHONY: $(1).edit-nobuild
 $(1).edit-nobuild:
 	mkdir -p $(PACKAGE_DIR)
-	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+	$(DOCKER) run $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
 
 .PHONY: $(1).nobuild
 $(1).nobuild:
 	mkdir -p $(PACKAGE_DIR)
-	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
+	$(DOCKER) run $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
 
 .PHONY: $(1)
 $(1): $(1).prepare
 	mkdir -p $(PACKAGE_DIR)
-	$(DOCKER) run -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
+	$(DOCKER) run $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && make $(1)'
 
 endef
 

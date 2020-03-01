@@ -48,11 +48,11 @@ $(1).fetch: depot_tools
 	$(SCRIPTS_DIR)/fetch_webrtc.sh $(CACHE_DIR) $(DEPOT_TOOLS_DIR) $(WEBRTC_COMMIT) $(CONFIG_DIR)/$(1)
 
 .PHONY: $(1).build
-$(1).build: prepare $(1).fetch sync patch
+$(1).build: prepare $(1).fetch sync
 	make $(SUB_DIR_OPTS) -C $(1) build
 
 .PHONY: $(1).build-nofetch
-$(1).build-nofetch: sync patch
+$(1).build-nofetch: sync
 	make $(SUB_DIR_OPTS) -C $(1) build
 
 .PHONY: $(1).copy
@@ -91,16 +91,8 @@ depot_tools: prepare
 .PHONY: sync
 sync:
 ifneq ($(CACHE_DIR),$(WEBRTC_DIR))
-	rsync -a -W -C --delete $(CACHE_DIR)/. $(WEBRTC_DIR)/.
+	rsync -a -W -C --delete $(CACHE_DIR)/ $(WEBRTC_DIR)/
 endif
-
-.PHONY: patch
-patch: sync
-	echo "apply patches ..." \
-	&& cd $(WEBRTC_DIR)/src \
-	&& patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch \
-	&& patch -p2 < $(PATCH_DIR)/4k.patch \
-	&& patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch
 
 .PHONY: clean
 clean:
