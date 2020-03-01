@@ -14,7 +14,8 @@ RUN \
     git \
     lsb-release \
     python \
-    pkg-config
+    pkg-config \
+    rsync
 
 COPY config/linux-x64/ /root/config/linux-x64/
 COPY build/ /root/build/

@@ -91,8 +91,7 @@ depot_tools: prepare
 .PHONY: sync
 sync:
 ifneq ($(CACHE_DIR),$(WEBRTC_DIR))
-	rm -rf $(WEBRTC_DIR)
-	cp -r $(CACHE_DIR) $(WEBRTC_DIR)
+	rsync -a -W -C --delete $(CACHE_DIR)/. $(WEBRTC_DIR)/.
 endif
 
 .PHONY: patch

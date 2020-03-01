@@ -15,6 +15,7 @@ RUN \
     lsb-release \
     python \
     pkg-config \
+    rsync \
     sudo \
     openjdk-8-jdk-headless \
     time
