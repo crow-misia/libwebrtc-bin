@@ -17,10 +17,10 @@ RUN \
     pkg-config \
     rsync \
     sudo \
-    openjdk-8-jdk-headless \
+    openjdk-11-jdk-headless \
     time
 
-RUN update-java-alternatives -s java-1.8.0-openjdk-amd64
+RUN update-java-alternatives -s java-1.11.0-openjdk-amd64
 
 COPY config/android/ /root/config/android/
 COPY build/ /root/build/

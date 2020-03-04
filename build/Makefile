@@ -91,7 +91,7 @@ depot_tools: prepare
 .PHONY: sync
 sync:
 ifneq ($(CACHE_DIR),$(WEBRTC_DIR))
-	rsync -a -W -C --delete $(CACHE_DIR)/ $(WEBRTC_DIR)/
+	rsync -a -W --exclude=.git --delete $(CACHE_DIR)/ $(WEBRTC_DIR)/
 endif
 
 .PHONY: clean
