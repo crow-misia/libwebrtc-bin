@@ -62,6 +62,7 @@ if (Test-Path $DEPOT_TOOLS_DIR) {
 } else {
   git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 }
+
 $Env:PATH = "$DEPOT_TOOLS_DIR;$Env:PATH"
 # Choco へのパスを削除
 $Env:PATH = $Env:Path.Replace("C:\ProgramData\Chocolatey\bin;", "");
@@ -133,6 +134,11 @@ foreach ($build in @("debug", "release")) {
   Move-Item $BUILD_DIR\$build\webrtc.lib $BUILD_DIR\$build\obj\webrtc.lib -Force
 }
 
+# ライセンス生成
+Push-Location $WEBRTC_DIR\src
+  python2 tools_webrtc\libs\generate_licenses.py --target :webrtc "$BUILD_DIR\" "$BUILD_DIR\debug" "$BUILD_DIR\release"
+Pop-Location
+
 # WebRTC のヘッダーだけをパッケージングする
 if (Test-Path $BUILD_DIR\package) {
   Remove-Item -Force -Recurse -Path $BUILD_DIR_DIR\package
@@ -144,7 +150,7 @@ foreach ($build in @("debug", "release")) {
   New-Item $BUILD_DIR\package\webrtc\$build -ItemType Directory -Force
   Copy-Item $BUILD_DIR\$build\obj\webrtc.lib $BUILD_DIR\package\webrtc\$build\
 }
-Copy-Item $REPO_DIR\NOTICE $BUILD_DIR\package\webrtc\NOTICE
+Copy-Item "$BUILD_DIR\LICENSE.md" "$BUILD_DIR\package\webrtc\NOTICE"
 $WEBRTC_VERSION | Out-File $BUILD_DIR\package\webrtc\VERSION
 
 # ファイルを圧縮する
