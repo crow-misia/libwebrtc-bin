@@ -1,4 +1,5 @@
 # Copyright 2019, Shiguredo Inc, melpon and enm10k
+# Copyright 2019, Zenichi Amano
 # original: https://github.com/shiguredo/shiguredo-webrtc-windows/blob/master/gabuild.ps1
 
 # VERSIONファイル読み込み
@@ -136,7 +137,7 @@ foreach ($build in @("debug", "release")) {
 
 # ライセンス生成
 Push-Location $WEBRTC_DIR\src
-  python2 tools_webrtc\libs\generate_licenses.py --target :webrtc "$BUILD_DIR\" "$BUILD_DIR\debug" "$BUILD_DIR\release"
+  vpython tools_webrtc\libs\generate_licenses.py --target :webrtc "$BUILD_DIR\" "$BUILD_DIR\debug" "$BUILD_DIR\release"
 Pop-Location
 
 # WebRTC のヘッダーだけをパッケージングする
