@@ -46,11 +46,11 @@ define generateRules
 
 .PHONY: $(1).prepare
 $(1).prepare:
-	rm -rf VERSION NOTICE LICENSE build
-	cp -a ../VERSION ../NOTICE ../LICENSE ../build ../config ../scripts .
+	rm -rf VERSION LICENSE build config scripts Dockerfile
+	cp -a ../VERSION ../LICENSE ../build ../config ../scripts .
 	cp -a ./${1}/Dockerfile ./
 	DOCKER_BUILDKIT=1 $(DOCKER) build -t libwebrtc-$(1):$(IMAGE_VERSION) .
-	rm -rf VERSION NOTICE LICENSE build config scripts Dockerfile
+	rm -rf VERSION LICENSE build config scripts Dockerfile
 
 .PHONY: $(1).edit
 $(1).edit: $(1).prepare

@@ -19,7 +19,7 @@ RUN \
 
 COPY config/linux-arm64/ /root/config/linux-arm64/
 COPY build/ /root/build/
-COPY Makefile VERSION LICENSE NOTICE /root/
+COPY Makefile VERSION LICENSE /root/
 COPY scripts/ /root/scripts/
 
 RUN \

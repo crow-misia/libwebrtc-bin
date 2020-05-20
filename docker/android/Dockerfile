@@ -24,7 +24,7 @@ RUN update-java-alternatives -s java-1.11.0-openjdk-amd64
 
 COPY config/android/ /root/config/android/
 COPY build/ /root/build/
-COPY Makefile VERSION LICENSE NOTICE /root/
+COPY Makefile VERSION LICENSE /root/
 COPY scripts/ /root/scripts/
 
 RUN \
