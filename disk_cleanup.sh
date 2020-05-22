@@ -19,3 +19,9 @@ sudo rm -rf ${JAVA_HOME_11_X64}
 sudo rm -rf ${JAVA_HOME_8_X64}
 sudo rm -rf ${JAVA_HOME_7_X64} 
 
+# Boost の削除
+sudo rm -rf /usr/local/share/boost
+
+# .Net Core の削除
+sudo rm -rf /usr/share/dotnet
+
