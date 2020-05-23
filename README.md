@@ -50,8 +50,8 @@ supported platforms and architectures.
   </tr>
   <tr>
     <th align="center">Android</th>
-    <td align="center">✔</td>
-    <td align="center">✔</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
     <td align="center">✔</td>
     <td align="center">✔</td>
   </tr>
