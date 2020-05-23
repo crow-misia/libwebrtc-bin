@@ -22,7 +22,6 @@ jobs:
         run: df -hT
       - name: Build
         run: make USE_CCACHE=0 ${{ matrix.name }}
-        working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
         run: df -hT
@@ -40,7 +39,6 @@ jobs:
         run: df -h
       - name: Build
         run: make USE_CCACHE=0 macos-x64
-        working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
         run: df -h
@@ -73,7 +71,6 @@ jobs:
         run: df -h
       - name: Build
         run: make USE_CCACHE=0 ios
-        working-directory: build
         timeout-minutes: 120
       - name: Output Disk size
         run: df -h
