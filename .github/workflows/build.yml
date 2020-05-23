@@ -18,13 +18,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: Disk Cleanup
         run: ./disk_cleanup.sh
-      - name: Output Disk size
-        run: df -hT
       - name: Build
-        run: make USE_CCACHE=0 ${{ matrix.name }}
-        timeout-minutes: 120
-      - name: Output Disk size
-        run: df -hT
+        run: make -C docker ${{ matrix.name }}
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -35,13 +30,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Output Disk size
-        run: df -h
       - name: Build
         run: make USE_CCACHE=0 macos-x64
-        timeout-minutes: 120
-      - name: Output Disk size
-        run: df -h
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -55,8 +45,7 @@ jobs:
       - name: Disk Cleanup
         run: .\disk_cleanup.bat
       - name: Build
-        run: .\build.bat
-        timeout-minutes: 120
+        run: .\build.windows.bat
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -67,13 +56,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Output Disk size
-        run: df -h
       - name: Build
         run: make USE_CCACHE=0 ios
-        timeout-minutes: 120
-      - name: Output Disk size
-        run: df -h
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
