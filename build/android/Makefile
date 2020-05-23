@@ -27,4 +27,14 @@ patch: common-patch
 .PHONY: build
 build: patch
 	cd $(SRC_DIR) && \
-	./tools_webrtc/android/build_aar.py --build-dir $(BUILD_DIR) --output $(BUILD_DIR)/libwebrtc.aar
+	./tools_webrtc/android/build_aar.py \
+	  --build-dir $(BUILD_DIR) \
+	  --output $(BUILD_DIR)/libwebrtc.aar \
+	  --arch armeabi-v7a arm64-v8a \
+	  --extra-gn-args ' \
+	    is_debug=false \
+	    rtc_use_h264=false \
+	    rtc_include_tests=false \
+	    rtc_build_json=true \
+	    use_rtti=true \
+	  '
