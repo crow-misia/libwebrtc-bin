@@ -27,7 +27,6 @@ COPY scripts/ /root/scripts/
 RUN \
   --mount=type=cache,id=libwebrtc,target=/var/cache/apt \
   --mount=type=cache,id=libwebrtc,target=/var/lib/apt \
-  --mount=type=cache,id=libwebrtc,target=/root/webrtc-cache \
   cd /root \
-  && make USE_CCACHE=0 CACHE_DIR=/root/webrtc-cache -C build linux-x64.fetch
+  && make USE_CCACHE=0 -C build linux-x64.fetch
 

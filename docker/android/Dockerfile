@@ -32,7 +32,6 @@ COPY scripts/ /root/scripts/
 RUN \
   --mount=type=cache,id=libwebrtc,target=/var/cache/apt \
   --mount=type=cache,id=libwebrtc,target=/var/lib/apt \
-  --mount=type=cache,id=libwebrtc,target=/root/webrtc-cache \
   cd /root \
-  && make USE_CCACHE=0 CACHE_DIR=/root/webrtc-cache -C build android.fetch
+  && make USE_CCACHE=0 -C build android.fetch
 
