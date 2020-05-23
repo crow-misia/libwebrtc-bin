@@ -40,7 +40,7 @@ include $(BASE_DIR)/build/env.mk
 WEBRTC_COMMIT_SHORT := $(shell echo $(WEBRTC_COMMIT) | cut -b 1-8)
 WEBRTC_VERSION_SHORT := $(shell echo '$(WEBRTC_VERSION)' | cut -b 1-3)
 IMAGE_VERSION := $(WEBRTC_VERSION_SHORT)-$(WEBRTC_COMMIT_SHORT)
-DOCKER_RUN_ARGS := -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z
+DOCKER_RUN_ARGS := --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z
 
 define generateRules
 
