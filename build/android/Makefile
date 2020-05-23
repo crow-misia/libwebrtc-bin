@@ -26,6 +26,7 @@ patch: common-patch
 
 .PHONY: build
 build: patch
+	cd $(SRC_DIR) && \
 	python $(SRC_DIR)/tools_webrtc/android/build_aar.py \
 	  --build-dir $(BUILD_DIR) \
 	  --output $(BUILD_DIR)/libwebrtc.aar \
