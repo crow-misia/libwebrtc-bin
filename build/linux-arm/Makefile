@@ -1,6 +1,6 @@
 include ../../VERSION
 
-BASE_DIR := $(CURDIR)/../..
+BASE_DIR := $(realpath ../..)
 
 include ../env.mk
 

@@ -1,4 +1,4 @@
-BASE_DIR := $(CURDIR)/../..
+BASE_DIR := $(realpath ../..)
 
 empty :=
 space:= $(empty) $(empty)
