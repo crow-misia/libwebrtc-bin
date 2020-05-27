@@ -19,7 +19,7 @@ curl -L -O ${AAR_URL}
 tar xf libwebrtc-android.tar.xz
 
 mvn install:install-file \
-    -Dfile=libwebrtc.aar \
+    -Dfile=aar/libwebrtc.aar \
     -Dpackaging=aar \
     -Dversion=${VERSION} \
     -DgroupId=com.github.crow-misia \
