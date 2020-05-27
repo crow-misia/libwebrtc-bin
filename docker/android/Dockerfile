@@ -20,7 +20,8 @@ RUN \
     rsync \
     sudo \
     openjdk-11-jdk-headless \
-    time
+    time \
+    unzip
 
 RUN update-java-alternatives -s java-1.11.0-openjdk-amd64
 
