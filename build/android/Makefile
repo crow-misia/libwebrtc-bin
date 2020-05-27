@@ -19,19 +19,22 @@ package: copy
 
 .PHONY: copy
 copy:
-	rm -rf $(PACKAGE_DIR)/{aar,jar,include,lib,NOTICE,VERSION}
-	mkdir -p $(PACKAGE_DIR)/{aar,jar}
-	mkdir -p $(PACKAGE_DIR)/lib/{armeabi-v7a,arm64-v8a}
+	rm -rf $(PACKAGE_DIR)/aar
+	rm -rf $(PACKAGE_DIR)/jar
+	rm -rf $(PACKAGE_DIR)/include
+	rm -rf $(PACKAGE_DIR)/lib
+	rm -f $(PACKAGE_DIR)/NOTICE
+	rm -f $(PACKAGE_DIR)/VERSION
+	mkdir -p $(PACKAGE_DIR)/aar
+	mkdir -p $(PACKAGE_DIR)/jar
+	mkdir -p $(PACKAGE_DIR)/lib/armeabi-v7a
+	mkdir -p $(PACKAGE_DIR)/lib/arm64-v8a
 	mkdir -p $(PACKAGE_DIR)/include
-	cp -f $(BUILD_DIR)/armeabi-v7a/libwebrtc.a $(PACKAGE_DIR)/lib/armeabi-v7a/libwebrtc.a
-	cp -f $(BUILD_DIR)/arm64-v8a/libwebrtc.a $(PACKAGE_DIR)/lib/arm64-v8a/libwebrtc.a
-
+	cp -f $(BUILD_DIR)/armeabi-v7a/libwebrtc.a $(PACKAGE_DIR)/lib/armeabi-v7a/
+	cp -f $(BUILD_DIR)/arm64-v8a/libwebrtc.a $(PACKAGE_DIR)/lib/arm64-v8a/
 	cp -f $(BUILD_DIR)/libwebrtc.jar $(PACKAGE_DIR)/jar/
-
 	cp -f $(BUILD_DIR)/libwebrtc.aar $(PACKAGE_DIR)/aar/
-
 	rsync -amv '--include=*/' '--include=*.h' '--include=*.hpp' '--exclude=*' $(SRC_DIR)/. $(PACKAGE_DIR)/include/.
-
 	cp -f $(BUILD_DIR)/LICENSE.md $(PACKAGE_DIR)/NOTICE
 	echo '$(WEBRTC_VERSION)' > $(PACKAGE_DIR)/VERSION
 
@@ -57,7 +60,8 @@ build: patch
 	$(SRC_DIR)/third_party/llvm-build/Release+Asserts/bin/llvm-ar -rc $(BUILD_DIR)/arm64-v8a/libwebrtc.a `find . -name '*.o'`
 
 	cd $(BUILD_DIR) && \
-	unzip libwebrtc.aar && \
-	rm -rf $(BUILD_DIR)/{jni,AndroidManifest.xml} && \
+	unzip libwebrtc.aar
+	rm -rf $(BUILD_DIR)/jni
+	rm -f $(BUILD_DIR)/AndroidManifest.xml
 	mv $(BUILD_DIR)/classes.jar $(BUILD_DIR)/libwebrtc.jar
 
