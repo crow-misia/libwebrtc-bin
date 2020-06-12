@@ -77,7 +77,7 @@ check `[options]` and `[platform]` by executing `make help`.
 ### Windows
 
 ```
-build.bat
+build.windows.bat
 ```
 
 ## License
