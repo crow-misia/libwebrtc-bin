@@ -51,7 +51,7 @@ build: patch
 	  --build-dir $(BUILD_DIR) \
 	  --output $(BUILD_DIR)/libwebrtc.aar \
 	  --arch armeabi-v7a arm64-v8a \
-	  --extra-gn-args 'is_debug=false rtc_use_h264=false rtc_include_tests=false rtc_build_json=true use_rtti=true'
+	  --extra-gn-args 'is_debug=false rtc_use_h264=false rtc_include_tests=false is_component_build=false is_clang=true rtc_build_json=true use_rtti=true'
 
 	cd $(BUILD_DIR)/armeabi-v7a/obj && \
 	$(SRC_DIR)/third_party/llvm-build/Release+Asserts/bin/llvm-ar -rc $(BUILD_DIR)/armeabi-v7a/libwebrtc.a `find . -name '*.o'`
