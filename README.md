@@ -50,8 +50,8 @@ supported platforms and architectures.
   </tr>
   <tr>
     <th align="center">Android</th>
-    <td align="center">✔</td>
-    <td align="center">✔</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
     <td align="center">✔</td>
     <td align="center">✔</td>
   </tr>
@@ -77,7 +77,7 @@ check `[options]` and `[platform]` by executing `make help`.
 ### Windows
 
 ```
-build.bat
+build.windows.bat
 ```
 
 ## License

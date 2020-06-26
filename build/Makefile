@@ -45,7 +45,7 @@ $(1).clean:
 	make -C $(1) clean
 
 $(1).fetch: depot_tools
-	$(SCRIPTS_DIR)/fetch_webrtc.sh $(CACHE_DIR) $(DEPOT_TOOLS_DIR) $(WEBRTC_COMMIT) $(CONFIG_DIR)/$(1)
+	$(SCRIPTS_DIR)/fetch_webrtc.sh $(WEBRTC_DIR) $(DEPOT_TOOLS_DIR) $(WEBRTC_COMMIT) $(CONFIG_DIR)/$(1)
 
 .PHONY: $(1).build
 $(1).build: prepare $(1).fetch sync
@@ -71,9 +71,6 @@ $(foreach pkg, $(PACKAGE_NAMES), $(eval $(call generateRules,$(pkg))))
 .PHONY: prepare
 prepare:
 	mkdir -p $(THIRD_PARTY_DIR)
-ifneq (x$(CCACHE),x)
-	make $(CCACHE)
-endif
 
 .PHONY: depot_tools
 depot_tools: prepare
@@ -90,9 +87,6 @@ depot_tools: prepare
 
 .PHONY: sync
 sync:
-ifneq ($(CACHE_DIR),$(WEBRTC_DIR))
-	rsync -a -W --exclude=.git --delete $(CACHE_DIR)/ $(WEBRTC_DIR)/
-endif
 
 .PHONY: clean
 clean:

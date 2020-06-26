@@ -40,17 +40,17 @@ include $(BASE_DIR)/build/env.mk
 WEBRTC_COMMIT_SHORT := $(shell echo $(WEBRTC_COMMIT) | cut -b 1-8)
 WEBRTC_VERSION_SHORT := $(shell echo '$(WEBRTC_VERSION)' | cut -b 1-3)
 IMAGE_VERSION := $(WEBRTC_VERSION_SHORT)-$(WEBRTC_COMMIT_SHORT)
-DOCKER_RUN_ARGS := -it --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z
+DOCKER_RUN_ARGS := --rm -v $(PATCH_DIR):/root/patch:Z -v $(PACKAGE_DIR):/root/package:Z
 
 define generateRules
 
 .PHONY: $(1).prepare
 $(1).prepare:
-	rm -rf VERSION NOTICE LICENSE build
-	cp -a ../VERSION ../NOTICE ../LICENSE ../build ../config ../scripts .
+	rm -rf VERSION LICENSE build config scripts Dockerfile
+	cp -a ../VERSION ../LICENSE ../build ../config ../scripts .
 	cp -a ./${1}/Dockerfile ./
 	DOCKER_BUILDKIT=1 $(DOCKER) build -t libwebrtc-$(1):$(IMAGE_VERSION) .
-	rm -rf VERSION NOTICE LICENSE build config scripts Dockerfile
+	rm -rf VERSION LICENSE build config scripts Dockerfile
 
 .PHONY: $(1).edit
 $(1).edit: $(1).prepare

@@ -1,4 +1,4 @@
-BASE_DIR := $(CURDIR)/../..
+BASE_DIR := $(realpath ../..)
 
 empty :=
 space:= $(empty) $(empty)
@@ -44,7 +44,7 @@ download:
 .PHONY: common-patch
 common-patch:
 	echo "apply patches ..." \
-	&& cd $(WEBRTC_DIR)/src \
+	&& cd $(SRC_DIR) \
 	&& patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch \
 	&& patch -p2 < $(PATCH_DIR)/4k.patch \
 	&& patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch
@@ -54,9 +54,13 @@ common-package: copy
 	cd $(PACKAGE_DIR) && \
 	tar -Jcf $(subst $(space),,$(PACKAGE_NAME)).tar.xz include lib NOTICE VERSION
 
+.PHONY: generate-licenses
+generate-licenses:
+	python2 $(SRC_DIR)/tools_webrtc/libs/generate_licenses.py --target :webrtc $(BUILD_DIR) $(BUILD_DIR)
+
 .PHONY: common-copy
-common-copy:
-	rm -rf $(PACKAGE_DIR)
+common-copy: generate-licenses
+	rm -rf $(PACKAGE_DIR)/{lib,include,NOTICE,VERSION}
 	mkdir -p $(PACKAGE_DIR)/lib
 	mkdir -p $(PACKAGE_DIR)/include
 	cp $(BUILD_DIR)/obj/libwebrtc.a $(PACKAGE_DIR)/lib/libwebrtc.a
@@ -64,5 +68,5 @@ common-copy:
 
 	rsync -amv '--include=*/' '--include=*.h' '--include=*.hpp' '--exclude=*' $(SRC_DIR)/. $(PACKAGE_DIR)/include/.
 
-	cp -f $(BASE_DIR)/NOTICE $(PACKAGE_DIR)/
+	cp -f $(BUILD_DIR)/LICENSE.md $(PACKAGE_DIR)/NOTICE
 	echo '$(WEBRTC_VERSION)' > $(PACKAGE_DIR)/VERSION
