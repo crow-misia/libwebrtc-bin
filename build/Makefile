@@ -48,11 +48,11 @@ $(1).fetch: depot_tools
 	$(SCRIPTS_DIR)/fetch_webrtc.sh $(WEBRTC_DIR) $(DEPOT_TOOLS_DIR) $(WEBRTC_COMMIT) $(CONFIG_DIR)/$(1)
 
 .PHONY: $(1).build
-$(1).build: prepare $(1).fetch sync
+$(1).build: prepare $(CCACHE) $(1).fetch sync
 	make $(SUB_DIR_OPTS) -C $(1) build
 
 .PHONY: $(1).build-nofetch
-$(1).build-nofetch: sync
+$(1).build-nofetch: $(CCACHE) sync
 	make $(SUB_DIR_OPTS) -C $(1) build
 
 .PHONY: $(1).copy
