@@ -51,12 +51,23 @@ build: patch
 	  --build-dir $(BUILD_DIR) \
 	  --output $(BUILD_DIR)/libwebrtc.aar \
 	  --arch armeabi-v7a arm64-v8a \
-	  --extra-gn-args 'is_debug=false rtc_use_h264=false rtc_include_tests=false is_component_build=false is_clang=true rtc_build_json=true use_custom_libcxx=false use_rtti=true'
+	  --extra-gn-args '$(CC_WRAPPER) is_debug=false rtc_use_h264=false rtc_include_tests=false is_clang=true rtc_build_json=true use_custom_libcxx=false use_rtti=true'
 
-	cd $(BUILD_DIR)/armeabi-v7a/obj && \
+	ln -sf $(DEPOT_TOOLS_DIR)/vpython $(DEPOT_TOOLS_DIR)/python
+	cd $(SRC_DIR) && \
+	vpython $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/armeabi-v7a-static --args='$(CC_WRAPPER) target_os="android" target_cpu="arm" arm_version=7 is_debug=false rtc_build_examples=false rtc_use_h264=false rtc_include_tests=false is_clang=true rtc_build_json=true use_custom_libcxx=false use_rtti=true' && \
+	ninja -C $(BUILD_DIR)/armeabi-v7a-static && \
+	ninja -C $(BUILD_DIR)/armeabi-v7a-static native_api
+
+	cd $(BUILD_DIR)/armeabi-v7a-static/obj && \
 	$(SRC_DIR)/third_party/llvm-build/Release+Asserts/bin/llvm-ar -rc $(BUILD_DIR)/armeabi-v7a/libwebrtc.a `find . -name '*.o'`
 
-	cd $(BUILD_DIR)/arm64-v8a/obj && \
+	cd $(SRC_DIR) && \
+	vpython $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/arm64-v8a-static --args='$(CC_WRAPPER) target_os="android" target_cpu="arm64" is_debug=false rtc_build_examples=false rtc_use_h264=false rtc_include_tests=false is_clang=true rtc_build_json=true use_custom_libcxx=false use_rtti=true' && \
+	ninja -C $(BUILD_DIR)/arm64-v8a-static && \
+	ninja -C $(BUILD_DIR)/arm64-v8a-static native_api
+
+	cd $(BUILD_DIR)/arm64-v8a-static/obj && \
 	$(SRC_DIR)/third_party/llvm-build/Release+Asserts/bin/llvm-ar -rc $(BUILD_DIR)/arm64-v8a/libwebrtc.a `find . -name '*.o'`
 
 	cd $(BUILD_DIR) && \
