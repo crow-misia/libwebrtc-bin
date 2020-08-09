@@ -53,6 +53,7 @@ $(1).build: prepare $(CCACHE) $(1).fetch sync
 
 .PHONY: $(1).build-nofetch
 $(1).build-nofetch: $(CCACHE) sync
+	rm -rf $(BUILD_DIR)
 	make $(SUB_DIR_OPTS) -C $(1) build
 
 .PHONY: $(1).copy
