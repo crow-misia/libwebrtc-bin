@@ -27,4 +27,4 @@ fi
 cd $WEBRTC_DIR/src
 git fetch
 git checkout -f $WEBRTC_COMMIT
-yes | gclient sync
+yes | gclient sync -D
