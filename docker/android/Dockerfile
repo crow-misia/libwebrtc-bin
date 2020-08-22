@@ -14,6 +14,7 @@ RUN \
     build-essential \
     curl \
     git \
+    libncurses5 \
     lsb-release \
     python \
     pkg-config \
