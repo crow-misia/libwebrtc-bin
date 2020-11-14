@@ -37,7 +37,7 @@ supported platforms and architectures.
   </tr>
   <tr>
     <th align="center">Windows</th>
-    <td align="center">-</td>
+    <td align="center">✔</td>
     <td align="center">✔</td>
     <td align="center">-</td>
     <td align="center">-</td>
