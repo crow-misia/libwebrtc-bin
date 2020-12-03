@@ -1,0 +1,38 @@
+diff --git a/src/stats/rtc_stats.cc b/src/stats/rtc_stats.cc
+index b8e9633f46..59de664c0e 100644
+--- a/src/stats/rtc_stats.cc
++++ b/src/stats/rtc_stats.cc
+@@ -35,6 +35,20 @@ std::string VectorToString(const std::vector<T>& vector) {
+   return sb.Release();
+ }
+ 
++// This overload is required because std::vector<bool> range loops don't
++// return references but objects, causing -Wrange-loop-analysis diagnostics.
++std::string VectorToString(const std::vector<bool>& vector) {
++  rtc::StringBuilder sb;
++  sb << "[";
++  const char* separator = "";
++  for (bool element : vector) {
++    sb << separator << rtc::ToString(element);
++    separator = ",";
++  }
++  sb << "]";
++  return sb.Release();
++}
++
+ // Produces "[\"a\",\"b\",\"c\"]". Works for vectors of both const char* and
+ // std::string element types.
+ template <typename T>
+diff --git a/src/sdk/objc/api/peerconnection/RTCStatisticsReport.mm b/src/sdk/objc/api/peerconnection/RTCStatisticsReport.mm
+index ab8006d9bd..1dd72772ed 100644
+--- a/src/sdk/objc/api/peerconnection/RTCStatisticsReport.mm
++++ b/src/sdk/objc/api/peerconnection/RTCStatisticsReport.mm
+@@ -37,7 +37,7 @@ NSObject *ValueFromStatsMember(const RTCStatsMemberInterface *member) {
+       case RTCStatsMemberInterface::kSequenceBool: {
+         std::vector<bool> sequence = *member->cast_to<RTCStatsMember<std::vector<bool>>>();
+         NSMutableArray *array = [NSMutableArray arrayWithCapacity:sequence.size()];
+-        for (const auto &item : sequence) {
++        for (auto item : sequence) {
+           [array addObject:[NSNumber numberWithBool:item]];
+         }
+         return [array copy];
