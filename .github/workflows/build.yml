@@ -35,8 +35,8 @@ jobs:
       fail-fast: false
       matrix:
         name:
-	  - macos-arm64
-	  - macos-x64
+          - macos-arm64
+          - macos-x64
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
@@ -114,7 +114,7 @@ jobs:
           - linux-arm
           - linux-arm64
           - linux-x64
-	  - macos-arm64
+          - macos-arm64
           - macos-x64
           - android
           - ios
@@ -132,10 +132,10 @@ jobs:
             ext: tar.xz
             filename: libwebrtc-linux-x64.tar.xz
             type: application/x-xz
-	  - name: macos-arm64
-	    ext: tar.xz
-	    filename: libwebrtc-macos-arm64.tar.xz
-	    type: application/x-xz
+          - name: macos-arm64
+            ext: tar.xz
+            filename: libwebrtc-macos-arm64.tar.xz
+            type: application/x-xz
           - name: macos-x64
             ext: tar.xz
             filename: libwebrtc-macos-x64.tar.xz
