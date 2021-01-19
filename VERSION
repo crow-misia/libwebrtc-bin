@@ -8,6 +8,7 @@ PACKAGE_NAMES= \
   linux-arm64 \
   linux-x64 \
   macos-x64 \
+  macos-arm64 \
   ios \
   android
 
