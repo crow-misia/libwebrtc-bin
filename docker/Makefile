@@ -55,12 +55,12 @@ $(1).prepare:
 .PHONY: $(1).edit
 $(1).edit: $(1).prepare
 	mkdir -p $(PACKAGE_DIR)
-	$(DOCKER) run $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+	$(DOCKER) run -it $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
 
 .PHONY: $(1).edit-nobuild
 $(1).edit-nobuild:
 	mkdir -p $(PACKAGE_DIR)
-	$(DOCKER) run $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
+	$(DOCKER) run -it $(DOCKER_RUN_ARGS) libwebrtc-$(1):$(IMAGE_VERSION) /bin/bash -c 'cd /root && exec /bin/bash'
 
 .PHONY: $(1).nobuild
 $(1).nobuild:
