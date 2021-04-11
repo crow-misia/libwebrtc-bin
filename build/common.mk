@@ -48,7 +48,8 @@ common-patch:
 	&& patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch \
 	&& patch -p2 < $(PATCH_DIR)/4k.patch \
 	&& patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch \
-	&& patch -p2 < $(PATCH_DIR)/fix_ios_build.patch
+	&& patch -p2 < $(PATCH_DIR)/fix_ios_build.patch \
+	&& patch -p2 < $(PATCH_DIR)/fix_python_used_by_gn.patch
 
 .PHONY: common-package
 common-package: copy
