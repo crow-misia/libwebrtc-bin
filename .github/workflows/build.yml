@@ -19,13 +19,13 @@ jobs:
           - android
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Disk Cleanup
         run: ./disk_cleanup.sh
       - name: Build
         run: make -C docker ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -39,11 +39,11 @@ jobs:
           - macos-x64
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Build
         run: make -C build USE_CCACHE=0 ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -51,18 +51,18 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Disk Cleanup
         run: .\disk_cleanup.bat
       - name: Build
         run: .\build.windows.bat
       - name: Upload artifact x64
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: libwebrtc-win-x64.7z
           path: package/libwebrtc-win-x64.7z
       - name: Upload artifact x86
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: libwebrtc-win-x86.7z
           path: package/libwebrtc-win-x86.7z
@@ -70,46 +70,14 @@ jobs:
   build-ios:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Build
         run: make -C build USE_CCACHE=0 ios
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: libwebrtc-ios.zip
           path: package/libwebrtc-ios.zip
-
-  setup-release:
-    name: Setup release
-    if: contains(github.ref, 'tags/')
-    needs:
-      - build-linux
-      - build-macos
-      - build-windows
-      - build-ios
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release m${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Get url to upload to release from output
-        env:
-          url: ${{ steps.create_release.outputs.upload_url }}
-        run: |
-          mkdir artifact
-          echo $url > artifact/url.txt
-      - name: Upload artifact to share url with other jobs
-        uses: actions/upload-artifact@v1
-        with:
-          name: artifact
-          path: artifact/url.txt
 
   release:
     strategy:
@@ -163,30 +131,28 @@ jobs:
             filename: libwebrtc-win-x86.7z
             type: application/x-7z-compressed
     name: Release ${{ matrix.name }}
+    if: contains(github.ref, 'tags/')
     needs:
-      - setup-release
+     - build-linux
+     - build-macos
+     - build-windows
+     - build-ios
     runs-on: ubuntu-latest
     steps:
       - name: Download ${{ matrix.name }}
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
-      - name: Download artifact to get url to upload to release
-        uses: actions/download-artifact@v1
-        with:
-          name: artifact
-      - name: Get url to upload to release from artifact
-        id: get_url
+      - name: Rename file
         run: |
-          url=$(cat artifact/url.txt)
-          echo "##[set-output name=upload_url;]$url"
+          mv libwebrtc-${{ matrix.name }}.${{ matrix.ext }} ${{ matrix.filename }}.tmp
+          mv ${{ matrix.filename }}.tmp ${{ matrix.filename }}
       - name: Upload ${{ matrix.name }} Release asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          upload_url: ${{ steps.get_url.outputs.upload_url }}
-          asset_path: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}/libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
-          asset_name: ${{ matrix.filename }}
-          asset_content_type: ${{ matrix.type }}
-
+          name: Release m${{ github.ref }}
+          allowUpdates: true
+          draft: true
+          prerelease: false
+          artifacts: ${{ matrix.filename }}
+          token: ${{ secrets.PERSONAL_TOKEN }}
