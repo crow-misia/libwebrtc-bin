@@ -152,7 +152,7 @@ jobs:
         with:
           name: Release m${{ github.ref }}
           allowUpdates: true
-          draft: true
+          draft: false
           prerelease: false
           artifacts: ${{ matrix.filename }}
           token: ${{ secrets.PERSONAL_TOKEN }}
