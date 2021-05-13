@@ -39,7 +39,9 @@ clean:
 
 .PHONY: download
 download:
+ifneq (x$(TARGET_CPU),x)
 	$(WEBRTC_DIR)/src/build/linux/sysroot_scripts/install-sysroot.py --arch=$(TARGET_CPU)
+endif
 
 .PHONY: common-patch
 common-patch:
