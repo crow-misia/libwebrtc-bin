@@ -6,7 +6,7 @@ index a2e2a90425..dac3e3760c 100644
  
    gtest_enable_absl_printers = true
  }
-+script_executable = "vpython"
++script_executable = "vpython3"
 -- 
 2.25.1
 
