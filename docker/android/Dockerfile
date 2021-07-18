@@ -6,8 +6,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 
 RUN \
-  --mount=type=cache,id=libwebrtc,target=/var/cache/apt \
-  --mount=type=cache,id=libwebrtc,target=/var/lib/apt \
   apt update \
   && apt upgrade -y \
   && apt install -y \
@@ -32,8 +30,6 @@ COPY Makefile VERSION LICENSE /root/
 COPY scripts/ /root/scripts/
 
 RUN \
-  --mount=type=cache,id=libwebrtc,target=/var/cache/apt \
-  --mount=type=cache,id=libwebrtc,target=/var/lib/apt \
   cd /root \
   && make USE_CCACHE=0 -C build android.fetch
 
