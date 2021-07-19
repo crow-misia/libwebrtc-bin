@@ -1,0 +1,15 @@
+diff --git a/src/tools_webrtc/ios/build_ios_libs.py b/src/tools_webrtc/ios/build_ios_libs.py
+index c931853229..c3aa95ee8d 100755
+--- a/src/tools_webrtc/ios/build_ios_libs.py
++++ b/src/tools_webrtc/ios/build_ios_libs.py
+@@ -312,9 +312,7 @@ def main():
+     for framework_path in framework_paths:
+         cmd += [
+             '-framework',
+-            os.path.abspath(os.path.join(framework_path, SDK_FRAMEWORK_NAME)),
+-            '-debug-symbols',
+-            os.path.abspath(os.path.join(framework_path, SDK_DSYM_NAME))
++            os.path.abspath(os.path.join(framework_path, SDK_FRAMEWORK_NAME))
+         ]
+ 
+     _RunCommand(cmd)
