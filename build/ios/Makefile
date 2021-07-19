@@ -24,5 +24,5 @@ patch: common-patch
 .PHONY: build
 build: patch
 	cd $(SRC_DIR)/tools_webrtc/ios && \
-	./build_ios_libs.py --arch x64 arm64 -e -o $(BUILD_DIR)
+	./build_ios_libs.py --arch x64 arm64 -e -o $(BUILD_DIR) --extra-gn-args '$(CC_WRAPPER)'
 
