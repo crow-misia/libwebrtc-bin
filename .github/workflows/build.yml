@@ -96,39 +96,30 @@ jobs:
         include:
           - name: linux-arm
             ext: tar.xz
-            filename: libwebrtc-linux-arm.tar.xz
             type: application/x-xz
           - name: linux-arm64
             ext: tar.xz
-            filename: libwebrtc-linux-arm64.tar.xz
             type: application/x-xz
           - name: linux-x64
             ext: tar.xz
-            filename: libwebrtc-linux-x64.tar.xz
             type: application/x-xz
           - name: macos-arm64
             ext: tar.xz
-            filename: libwebrtc-macos-arm64.tar.xz
             type: application/x-xz
           - name: macos-x64
             ext: tar.xz
-            filename: libwebrtc-macos-x64.tar.xz
             type: application/x-xz
           - name: android
             ext: tar.xz
-            filename: libwebrtc-android.tar.xz
             type: application/x-xz
           - name: ios
             ext: zip
-            filename: WebRTC.framework.zip
             type: application/zip
           - name: win-x64
             ext: 7z
-            filename: libwebrtc-win-x64.7z
             type: application/x-7z-compressed
           - name: win-x86
             ext: 7z
-            filename: libwebrtc-win-x86.7z
             type: application/x-7z-compressed
     name: Release ${{ matrix.name }}
     if: contains(github.ref, 'tags/')
@@ -143,10 +134,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
-      - name: Rename file
-        run: |
-          mv libwebrtc-${{ matrix.name }}.${{ matrix.ext }} ${{ matrix.filename }}.tmp
-          mv ${{ matrix.filename }}.tmp ${{ matrix.filename }}
       - name: Upload ${{ matrix.name }} Release asset
         uses: ncipollo/release-action@v1
         with:
@@ -154,5 +141,6 @@ jobs:
           allowUpdates: true
           draft: false
           prerelease: false
-          artifacts: ${{ matrix.filename }}
+          artifactContentType: ${{ matrix.type }}
+          artifacts: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
           token: ${{ secrets.PERSONAL_TOKEN }}
