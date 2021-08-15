@@ -20,9 +20,6 @@ package:
 
 .PHONY: patch
 patch: common-patch
-	echo "apply ios patches ..." \
-	&& cd $(SRC_DIR) \
-	&& patch -p2 < $(PATCH_DIR)/ios_disable_dsym.patch
 
 .PHONY: build
 build: patch
