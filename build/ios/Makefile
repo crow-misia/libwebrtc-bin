@@ -20,9 +20,12 @@ package:
 
 .PHONY: patch
 patch: common-patch
+	echo "apply ios patches ..." \
+	&& cd $(SRC_DIR) \
+	&& patch -p2 < $(PATCH_DIR)/disable_xcode_cflags_compilation.patch
 
 .PHONY: build
 build: patch
 	cd $(SRC_DIR)/tools_webrtc/ios && \
-	./build_ios_libs.py -e -o $(BUILD_DIR) --bitcode --extra-gn-args 'use_xcode_clang=false enable_dsyms=true rtc_libvpx_build_vp9=true $(CC_WRAPPER)'
+	./build_ios_libs.py -e -o $(BUILD_DIR) --bitcode --extra-gn-args 'enable_dsyms=true rtc_libvpx_build_vp9=true $(CC_WRAPPER)'
 
