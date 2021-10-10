@@ -28,7 +28,7 @@ $(CCACHE):
 	&& cd $(THIRD_PARTY_DIR)/ccache-$(CCACHE_VERSION) \
 	&& mkdir build \
 	&& cd build \
-	&& cmake -DCMAKE_BUILD_TYPE=Release .. \
+	&& cmake -DZSTD_FROM_INTERNET=ON -DHIREDIS_FROM_INTERNET=ON -DCMAKE_BUILD_TYPE=Release .. \
 	&& make \
 	&& mv ccache $(CCACHE) \
 	&& cd $(THIRD_PARTY_DIR) \
