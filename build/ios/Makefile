@@ -20,12 +20,15 @@ package:
 
 .PHONY: patch
 patch: common-patch
+	echo "apply iOS patches ..." \
+	&& cd $(SRC_DIR) \
+	&& patch -p1 < $(PATCH_DIR)/disable_gdwarf-aranges.patch
 
 .PHONY: build
 build: patch
 	cd $(SRC_DIR)/tools_webrtc/ios && \
 	vpython3 build_ios_libs.py -o $(BUILD_DIR) --build_config release --arch arm64 x64 --bitcode --extra-gn-args '\
-	  use_xcode_clang=false \
+	  use_xcode_clang=true \
 	  use_rtti=true \
 	  enable_dsyms=true \
 	  rtc_libvpx_build_vp9=true \
