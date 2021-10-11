@@ -31,7 +31,7 @@ $(CCACHE):
 	&& cmake -DZSTD_FROM_INTERNET=ON -DHIREDIS_FROM_INTERNET=ON -DCMAKE_BUILD_TYPE=Release .. \
 	&& make \
 	&& mv ccache $(CCACHE) \
-	&& ln -sf $(CCACHE) $(THIRD_PARTY_DIR)/ccache
+	&& ln -sf $(CCACHE) $(THIRD_PARTY_DIR)/ccache \
 	&& cd $(THIRD_PARTY_DIR) \
 	&& rm -rf ccache.tar.gz ccache-$(CCACHE_VERSION)
 else
