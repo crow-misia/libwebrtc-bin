@@ -49,8 +49,7 @@ common-patch:
 	&& cd $(SRC_DIR) \
 	&& patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch \
 	&& patch -p2 < $(PATCH_DIR)/4k.patch \
-	&& patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch \
-	&& patch -p2 < $(PATCH_DIR)/fix_python_used_by_gn.patch
+	&& patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch
 
 .PHONY: common-package
 common-package: copy
@@ -59,7 +58,7 @@ common-package: copy
 
 .PHONY: generate-licenses
 generate-licenses:
-	vpython3 $(SRC_DIR)/tools_webrtc/libs/generate_licenses.py --target :webrtc $(BUILD_DIR) $(BUILD_DIR)
+	python3 $(SRC_DIR)/tools_webrtc/libs/generate_licenses.py --target :webrtc $(BUILD_DIR) $(BUILD_DIR)
 
 .PHONY: common-copy
 common-copy: generate-licenses

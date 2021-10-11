@@ -48,19 +48,19 @@ patch: common-patch
 .PHONY: build
 build: patch
 	cd $(SRC_DIR) && \
-	vpython3 $(SRC_DIR)/tools_webrtc/android/build_aar.py \
+	python3 $(SRC_DIR)/tools_webrtc/android/build_aar.py \
 	  --build-dir $(BUILD_DIR)/aar \
 	  --output $(BUILD_DIR)/libwebrtc.aar \
 	  --arch armeabi-v7a arm64-v8a \
 	  --extra-gn-args '$(CC_WRAPPER) is_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true'
 
 	cd $(SRC_DIR) && \
-	vpython3 $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/static/armeabi-v7a --args='$(CC_WRAPPER) target_os="android" target_cpu="arm" arm_version=7 is_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false use_custom_libcxx=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true' && \
+	python3 $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/static/armeabi-v7a --args='$(CC_WRAPPER) target_os="android" target_cpu="arm" arm_version=7 is_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false use_custom_libcxx=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true' && \
 	ninja -C $(BUILD_DIR)/static/armeabi-v7a && \
 	ninja -C $(BUILD_DIR)/static/armeabi-v7a native_api
 
 	cd $(SRC_DIR) && \
-	vpython3 $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/static/arm64-v8a --args='$(CC_WRAPPER) target_os="android" target_cpu="arm64" is_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false use_custom_libcxx=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true' && \
+	python3 $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/static/arm64-v8a --args='$(CC_WRAPPER) target_os="android" target_cpu="arm64" is_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false use_custom_libcxx=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true' && \
 	ninja -C $(BUILD_DIR)/static/arm64-v8a && \
 	ninja -C $(BUILD_DIR)/static/arm64-v8a native_api
 
