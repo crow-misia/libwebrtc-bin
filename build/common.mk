@@ -4,7 +4,7 @@ empty :=
 space:= $(empty) $(empty)
 
 ifeq ($(USE_CCACHE),1)
-CC_WRAPPER := cc_wrapper="$(THIRD_PARTY_DIR)/ccache-$(CCACHE_VERSION)"
+CC_WRAPPER := cc_wrapper="$(THIRD_PARTY_DIR)/ccache"
 else
 CC_WRAPPER :=
 endif
