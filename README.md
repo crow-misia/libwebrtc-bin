@@ -61,7 +61,7 @@ supported platforms and architectures.
 ## Prerequisites
 
 - Make
-- Python 2.7 (optional for Windows since it will use the interpreter located
+- Python 3.8 (optional for Windows since it will use the interpreter located
   inside the `depot_tools` installation)
 
 ## Building
