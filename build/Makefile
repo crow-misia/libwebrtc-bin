@@ -1,5 +1,8 @@
 include ../VERSION
 
+LC_ALL = C
+export LC_ALL
+
 BASE_DIR := $(CURDIR)/..
 
 include ./env.mk
