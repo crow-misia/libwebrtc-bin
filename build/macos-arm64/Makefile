@@ -24,7 +24,7 @@ patch: common-patch
 .PHONY: build
 build: patch
 	cd $(SRC_DIR) && \
-	gn gen $(BUILD_DIR) --args='$(CC_WRAPPER) target_os="mac" target_cpu="$(TARGET_CPU)" enable_stripping=true enable_dsyms=false is_debug=false treat_warnings_as_errors=false $(RTC_USE_H264) rtc_include_tests=false rtc_build_tools=false rtc_build_examples=false is_component_build=false use_rtti=true libcxx_abi_unstable=false' && \
+	gn gen $(BUILD_DIR) --args='$(CC_WRAPPER) target_os="mac" target_cpu="$(TARGET_CPU)" enable_stripping=true enable_dsyms=true is_debug=false treat_warnings_as_errors=false $(RTC_USE_H264) rtc_include_tests=false rtc_build_tools=false rtc_build_examples=false is_component_build=false use_rtti=true libcxx_abi_unstable=false' && \
 	ninja -C $(BUILD_DIR) && \
 	ninja -C $(BUILD_DIR) \
 	  builtin_audio_decoder_factory \
