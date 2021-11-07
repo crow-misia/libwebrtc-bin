@@ -27,7 +27,7 @@ patch: common-patch
 .PHONY: build
 build: patch
 	cd $(SRC_DIR)/tools_webrtc/ios && \
-	vpython3 build_ios_libs.py -o $(BUILD_DIR) --build_config release --arch arm64 x64 --bitcode --extra-gn-args '\
+	vpython3 build_ios_libs.py -o $(BUILD_DIR) --build_config release --bitcode --extra-gn-args '\
 	  use_xcode_clang=true \
 	  use_rtti=true \
 	  enable_dsyms=true \
