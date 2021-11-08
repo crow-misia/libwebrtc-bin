@@ -22,8 +22,7 @@ package:
 patch: common-patch
 	echo "apply iOS patches ..." \
 	&& cd $(SRC_DIR) \
-	&& patch -p1 < $(PATCH_DIR)/disable_gdwarf-aranges.patch \
-	&& patch -p1 < $(PATCH_DIR)/ios_disable_iossim.patch
+	&& patch -p1 < $(PATCH_DIR)/disable_gdwarf-aranges.patch
 
 .PHONY: build
 build: patch
