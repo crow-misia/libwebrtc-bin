@@ -1,0 +1,30 @@
+diff --git a/src/tools_webrtc/libs/generate_licenses.py b/src/tools_webrtc/libs/generate_licenses.py
+index 86b4cd01f0..ece2fc710f 100755
+--- a/src/tools_webrtc/libs/generate_licenses.py
++++ b/src/tools_webrtc/libs/generate_licenses.py
+@@ -47,10 +47,17 @@ LIB_TO_LICENSES_DICT = {
+     'bazel': ['third_party/bazel/LICENSE'],
+     'boringssl': ['third_party/boringssl/src/LICENSE'],
+     'crc32c': ['third_party/crc32c/src/LICENSE'],
++    'dav1d': ['third_party/dav1d/LICENSE'],
+     'errorprone': [
+         'third_party/android_deps/libs/'
+         'com_google_errorprone_error_prone_core/LICENSE'
+     ],
++    'ffmpeg':[
++        'third_party/ffmpeg/COPYING.GPLv2',
++	'third_party/ffmpeg/COPYING.GPLv3',
++	'third_party/ffmpeg/COPYING.LGPLv2.1',
++	'third_party/ffmpeg/COPYING.LGPLv3'
++    ],
+     'fiat': ['third_party/boringssl/src/third_party/fiat/LICENSE'],
+     'guava': ['third_party/android_deps/libs/com_google_guava_guava/LICENSE'],
+     'ijar': ['third_party/ijar/LICENSE'],
+@@ -65,6 +72,7 @@ LIB_TO_LICENSES_DICT = {
+     'libvpx': ['third_party/libvpx/source/libvpx/LICENSE'],
+     'libyuv': ['third_party/libyuv/LICENSE'],
+     'nasm': ['third_party/nasm/LICENSE'],
++    'openh264': ['third_party/openh264/src/LICENSE'],
+     'opus': ['third_party/opus/src/COPYING'],
+     'pffft': ['third_party/pffft/LICENSE'],
+     'protobuf': ['third_party/protobuf/LICENSE'],
