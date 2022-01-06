@@ -50,7 +50,7 @@ patch: common-patch
 
 define build-android
 	cd $(SRC_DIR) && \
-	python3 $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/static/$1 --args='$(CC_WRAPPER) target_os="android" target_cpu="$2" $3 is_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false use_custom_libcxx=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true' && \
+	python3 $(DEPOT_TOOLS_DIR)/gn.py gen $(BUILD_DIR)/static/$1 --args='$(CC_WRAPPER) target_os="android" target_cpu="$2" $3 is_debug=false is_java_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true' && \
 	ninja -C $(BUILD_DIR)/static/$1 && \
 	ninja -C $(BUILD_DIR)/static/$1 native_api
 
