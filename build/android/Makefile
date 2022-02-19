@@ -66,7 +66,7 @@ build: patch
 	  --build-dir $(BUILD_DIR)/aar \
 	  --output $(BUILD_DIR)/libwebrtc.aar \
 	  --arch armeabi-v7a arm64-v8a x86_64 \
-	  --extra-gn-args '$(CC_WRAPPER) is_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true'
+	  --extra-gn-args '$(CC_WRAPPER) is_debug=false is_java_debug=false $(RTC_USE_H264) rtc_build_tools=false rtc_build_examples=false rtc_include_tests=false is_clang=true is_component_build=false rtc_enable_protobuf=false rtc_build_json=true use_rtti=true'
 
 	$(call build-android,armeabi-v7a,arm,arm_version=7)
 	$(call build-android,arm64-v8a,arm64)
