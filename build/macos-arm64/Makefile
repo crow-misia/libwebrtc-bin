@@ -22,7 +22,7 @@ EXTRA_GN_ARGS := \
 	rtc_build_examples=false \
 	rtc_libvpx_build_vp9=true \
 	rtc_enable_symbol_export=true \
-	rtc_enable_objc_symbol_export=false \
+	rtc_enable_objc_symbol_export=true \
 	is_component_build=false \
 	use_rtti=true
 
@@ -56,3 +56,7 @@ build: patch
 	  pc:peerconnection \
 	  sdk:videocapture_objc \
 	  sdk:mac_framework_objc
+
+	cd $(BUILD_DIR)/obj && \
+	/usr/bin/ar -rc $(BUILD_DIR)/obj/libwebrtc.a `find . -name '*.o'`
+
