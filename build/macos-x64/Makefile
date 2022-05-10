@@ -21,6 +21,8 @@ EXTRA_GN_ARGS := \
 	rtc_build_tools=false \
 	rtc_build_examples=false \
 	rtc_libvpx_build_vp9=true \
+	rtc_enable_symbol_export=true \
+	rtc_enable_objc_symbol_export=false \
 	is_component_build=false \
 	use_rtti=true
 
@@ -32,6 +34,11 @@ package: common-package
 
 .PHONY: copy
 copy: common-copy
+	xcodebuild \
+	  -create-xcframework \
+	  -framework $(BUILD_DIR)/WebRTC.framework \
+	  -debug-symbols $(BUILD_DIR)/WebRTC.dSYM \
+	  -output $(PACKAGE_DIR)/Frameworks/WebRTC.xcframework
 
 .PHONY: patch
 patch: common-patch
@@ -42,9 +49,10 @@ build: patch
 	gn gen $(BUILD_DIR) --args='$(EXTRA_GN_ARGS) $(CC_WRAPPER)' && \
 	ninja -C $(BUILD_DIR) && \
 	ninja -C $(BUILD_DIR) \
-	  builtin_audio_decoder_factory \
-	  default_task_queue_factory \
-	  native_api \
-	  default_codec_factory_objc \
-	  peerconnection \
-	  videocapture_objc
+	  api/audio_codecs:builtin_audio_decoder_factory \
+	  api/task_queue:default_task_queue_factory \
+	  sdk:native_api \
+	  sdk:default_codec_factory_objc \
+	  pc:peerconnection \
+	  sdk:videocapture_objc \
+	  sdk:mac_framework_objc
