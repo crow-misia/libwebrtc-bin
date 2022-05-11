@@ -30,10 +30,14 @@ EXTRA_GN_ARGS := \
 all: clean build package
 
 .PHONY: package
-package: common-package
+package: copy
+	cd $(PACKAGE_DIR) && \
+	tar -Jcf $(subst $(space),,$(PACKAGE_NAME)).tar.xz include lib NOTICE VERSION Frameworks
 
 .PHONY: copy
 copy: common-copy
+	rm -f $(PACKAGE_DIR)/lib/libboringssl.a
+	rm -rf $(PACKAGE_DIR)/Frameworks/WebRTC.xcframework
 	xcodebuild \
 	  -create-xcframework \
 	  -framework $(BUILD_DIR)/WebRTC.framework \
