@@ -56,9 +56,9 @@ copy:
 
 .PHONY: patch
 patch: common-patch
-	cd $(SRC_DIR) \
-	&& patch -p2 < $(PATCH_DIR)/android_version.patch \
-	&& $(SCRIPTS_DIR)/generate_android_version.sh $(SRC_DIR) $(WEBRTC_COMMIT) $(WEBRTC_SEMANTIC_VERSION)
+	cd $(SRC_DIR) && \
+	patch -p2 < $(PATCH_DIR)/android_version.patch && \
+	$(SCRIPTS_DIR)/generate_android_version.sh $(SRC_DIR) $(WEBRTC_COMMIT) $(WEBRTC_SEMANTIC_VERSION)
 
 
 define build-android

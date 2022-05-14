@@ -1,0 +1,21 @@
+# Copyright 2018-2019, Shiguredo Inc, tnoho and melpon and kdxu
+# from https://github.com/shiguredo/momo/blob/develop/patch/4k.patch
+
+diff --git a/src/modules/video_capture/linux/device_info_v4l2.cc b/src/modules/video_capture/linux/device_info_v4l2.cc
+index 39f72b0..3cb1226 100644
+--- a/src/modules/video_capture/linux/device_info_v4l2.cc
++++ b/src/modules/video_capture/linux/device_info_v4l2.cc
+@@ -232,11 +232,11 @@ int32_t DeviceInfoV4l2::FillCapabilities(int fd) {
+   unsigned int videoFormats[] = {V4L2_PIX_FMT_MJPEG, V4L2_PIX_FMT_YUV420,
+                                  V4L2_PIX_FMT_YUYV, V4L2_PIX_FMT_UYVY};
+ 
+-  int sizes = 13;
++  int sizes = 14;
+   unsigned int size[][2] = {{128, 96},   {160, 120},  {176, 144},  {320, 240},
+                             {352, 288},  {640, 480},  {704, 576},  {800, 600},
+                             {960, 720},  {1280, 720}, {1024, 768}, {1440, 1080},
+-                            {1920, 1080}};
++                            {1920, 1080}, {3840, 2160}};
+ 
+   for (int fmts = 0; fmts < totalFmts; fmts++) {
+     for (int i = 0; i < sizes; i++) {
