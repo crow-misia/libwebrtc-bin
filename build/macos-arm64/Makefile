@@ -25,7 +25,9 @@ EXTRA_GN_ARGS := \
 	rtc_enable_objc_symbol_export=true \
 	is_component_build=false \
 	use_rtti=true \
-	libcxx_abi_unstable=false
+	libcxx_abi_unstable=false \
+	use_custom_libcxx=false \
+	use_custom_libcxx_for_host=false
 
 .PHONY: all
 all: clean build package
