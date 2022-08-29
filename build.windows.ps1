@@ -104,6 +104,7 @@ if (!(Test-Path $BUILD_DIR)) {
 
 gclient sync --with_branch_heads -r $WEBRTC_COMMIT
 git apply $PATCH_DIR\4k.patch
+git apply $PATCH_DIR\windows_fix_towupper.patch
 Pop-Location
 
 Get-PSDrive
