@@ -8,9 +8,9 @@ index 86b4cd01f0..ece2fc710f 100755
      ],
 +    'ffmpeg':[
 +        'third_party/ffmpeg/COPYING.GPLv2',
-+	'third_party/ffmpeg/COPYING.GPLv3',
-+	'third_party/ffmpeg/COPYING.LGPLv2.1',
-+	'third_party/ffmpeg/COPYING.LGPLv3'
++        'third_party/ffmpeg/COPYING.GPLv3',
++        'third_party/ffmpeg/COPYING.LGPLv2.1',
++        'third_party/ffmpeg/COPYING.LGPLv3'
 +    ],
      'fiat': ['third_party/boringssl/src/third_party/fiat/LICENSE'],
      'guava': ['third_party/android_deps/libs/com_google_guava_guava/LICENSE'],
