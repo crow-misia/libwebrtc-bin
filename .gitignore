@@ -119,4 +119,5 @@ package/
 webrtc/
 webrtc-cache/
 webrtc_build/
-
+depot_tools/
+7z/
