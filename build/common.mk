@@ -67,7 +67,6 @@ common-copy: generate-licenses
 	mkdir -p $(PACKAGE_DIR)/lib
 	mkdir -p $(PACKAGE_DIR)/include
 	cp $(BUILD_DIR)/obj/libwebrtc.a $(PACKAGE_DIR)/lib/libwebrtc.a
-	cp $(BUILD_DIR)/obj/third_party/boringssl/libboringssl.a $(PACKAGE_DIR)/lib/libboringssl.a
 
 	rsync -amv '--include=*/' '--include=*.h' '--include=*.hpp' '--exclude=*' $(SRC_DIR)/. $(PACKAGE_DIR)/include/.
 
