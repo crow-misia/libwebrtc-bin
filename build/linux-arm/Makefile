@@ -45,3 +45,6 @@ build: download patch
 	gn gen $(BUILD_DIR) --args='$(EXTRA_GN_ARGS) $(CC_WRAPPER)' && \
 	ninja -C $(BUILD_DIR)
 
+	cd $(BUILD_DIR)/obj && \
+	/usr/bin/ar -rc $(BUILD_DIR)/obj/libwebrtc.a `find . -name '*.o'`
+
