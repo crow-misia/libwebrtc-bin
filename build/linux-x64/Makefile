@@ -26,3 +26,7 @@ build: download patch
 	cd $(SRC_DIR) && \
 	gn gen $(BUILD_DIR) --args='$(CC_WRAPPER) target_os="$(TARGET_OS)" target_cpu="$(TARGET_CPU)" is_debug=false $(RTC_USE_H264) $(RTC_USE_X11) rtc_include_tests=false rtc_build_tools=false rtc_build_examples=false rtc_use_pipewire=false rtc_build_json=true use_rtti=true use_custom_libcxx=false use_custom_libcxx_for_host=false' && \
 	ninja -C $(BUILD_DIR)
+
+	cd $(BUILD_DIR)/obj && \
+	/usr/bin/ar -rc $(BUILD_DIR)/obj/libwebrtc.a `find . -name '*.o'`
+
