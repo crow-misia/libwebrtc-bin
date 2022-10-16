@@ -37,7 +37,8 @@ copy: common-copy
 patch: common-patch
 	cd $(SRC_DIR) && \
 	patch -p2 < $(PATCH_DIR)/4k_linux.patch && \
-	patch -p2 < $(PATCH_DIR)/disable_use_hermetic_xcode_on_linux.patch
+	patch -p2 < $(PATCH_DIR)/disable_use_hermetic_xcode_on_linux.patch && \
+	patch -p2 < $(PATCH_DIR)/linux_is_pod_deprecate.patch
 
 .PHONY: build
 build: download patch
