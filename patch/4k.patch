@@ -1,11 +1,11 @@
 # Copyright 2018-2019, Shiguredo Inc, tnoho and melpon and kdxu
 # from https://github.com/shiguredo/momo/blob/develop/patch/4k.patch
 
-diff --git a/src/media/engine/webrtc_video_engine.cc b/src/media/engine/webrtc_video_engine.cc
-index 4219c43..b7b4ffa 100644
---- a/src/media/engine/webrtc_video_engine.cc
-+++ b/src/media/engine/webrtc_video_engine.cc
-@@ -244,8 +244,10 @@ static int GetMaxDefaultVideoBitrateKbps(int width,
+diff --git a/src/video/config/encoder_stream_factory.cc b/src/video/config/encoder_stream_factory.cc
+index fceadf09b4..a73b7e9f6f 100644
+--- a/src/video/config/encoder_stream_factory.cc
++++ b/src/video/config/encoder_stream_factory.cc
+@@ -86,8 +86,10 @@ static int GetMaxDefaultVideoBitrateKbps(int width,
      max_bitrate = 1700;
    } else if (width * height <= 960 * 540) {
      max_bitrate = 2000;
