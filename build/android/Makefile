@@ -20,7 +20,8 @@ EXTRA_GN_ARGS := \
 	is_component_build=false \
 	rtc_enable_protobuf=false \
 	rtc_build_json=true \
-	use_rtti=true
+	use_rtti=true \
+	use_custom_libcxx=false
 
 .PHONY: all
 all: clean build package
@@ -58,6 +59,7 @@ copy:
 patch: common-patch
 	cd $(SRC_DIR) \
 	&& patch -p2 < $(PATCH_DIR)/android_version.patch \
+	&& patch -p2 < $(PATCH_DIR)/android_use_libunwind.patch \
 	&& $(SCRIPTS_DIR)/generate_android_version.sh $(SRC_DIR) $(WEBRTC_COMMIT) $(WEBRTC_SEMANTIC_VERSION)
 
 
