@@ -16,7 +16,8 @@ RUN \
     lsb-release \
     python \
     pkg-config \
-    rsync
+    rsync \
+    cmake
 
 COPY config/linux-x64/ /root/config/linux-x64/
 COPY build/ /root/build/
@@ -25,5 +26,5 @@ COPY scripts/ /root/scripts/
 
 RUN \
   cd /root \
-  && make USE_CCACHE=0 -C build linux-x64.fetch
+  && make -C build linux-x64.fetch
 
