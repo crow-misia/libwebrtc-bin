@@ -20,8 +20,7 @@ EXTRA_GN_ARGS := \
 	is_component_build=false \
 	rtc_enable_protobuf=false \
 	rtc_build_json=true \
-	use_rtti=true \
-	use_custom_libcxx=false
+	use_rtti=true
 
 .PHONY: all
 all: clean build package
@@ -65,7 +64,7 @@ patch: common-patch
 
 define build-android
 	cd $(SRC_DIR) && \
-	gn gen $(BUILD_DIR)/static/$1 --args='$(EXTRA_GN_ARGS) $(CC_WRAPPER) target_os="android" target_cpu="$2" $3' && \
+	gn gen $(BUILD_DIR)/static/$1 --args='$(EXTRA_GN_ARGS) use_custom_libcxx=false $(CC_WRAPPER) target_os="android" target_cpu="$2" $3' && \
 	ninja -C $(BUILD_DIR)/static/$1 && \
 	ninja -C $(BUILD_DIR)/static/$1 native_api
 
@@ -77,7 +76,7 @@ endef
 .PHONY: build
 build: patch
 	cd $(SRC_DIR) && \
-	python3 $(SRC_DIR)/tools_webrtc/android/build_aar.py \
+	vpython3 $(SRC_DIR)/tools_webrtc/android/build_aar.py \
 	  --build-dir $(BUILD_DIR)/aar \
 	  --output $(BUILD_DIR)/libwebrtc.aar \
 	  --arch armeabi-v7a arm64-v8a x86_64 \
