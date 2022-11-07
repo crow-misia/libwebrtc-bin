@@ -16,7 +16,8 @@ RUN \
     lsb-release \
     python \
     pkg-config \
-    rsync
+    rsync \
+    cmake
 
 COPY config/linux-arm/ /root/config/linux-arm/
 COPY build/ /root/build/
@@ -25,5 +26,5 @@ COPY scripts/ /root/scripts/
 
 RUN \
   cd /root \
-  && make USE_CCACHE=0 -C build linux-arm.fetch
+  && make -C build linux-arm.fetch
 
