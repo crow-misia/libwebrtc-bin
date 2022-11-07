@@ -19,13 +19,13 @@ jobs:
           - android
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Disk Cleanup
         run: ./disk_cleanup.sh
       - name: Build
         run: make -C docker ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -39,11 +39,11 @@ jobs:
           - macos-x64
     runs-on: macos-11
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: make -C build USE_CCACHE=0 ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -51,18 +51,18 @@ jobs:
   build-windows:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Disk Cleanup
         run: .\disk_cleanup.bat
       - name: Build
         run: .\build.windows.bat
       - name: Upload artifact x64
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: libwebrtc-win-x64.7z
           path: package/libwebrtc-win-x64.7z
       - name: Upload artifact x86
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: libwebrtc-win-x86.7z
           path: package/libwebrtc-win-x86.7z
@@ -70,13 +70,13 @@ jobs:
   build-ios:
     runs-on: macos-11
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Select Xcode 13.0
         run: sudo xcode-select --switch /Applications/Xcode_13.0.app/Contents/Developer
       - name: Build
         run: make -C build USE_CCACHE=0 ios
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: libwebrtc-ios.zip
           path: package/libwebrtc-ios.zip
@@ -134,7 +134,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download ${{ matrix.name }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
       - name: Upload ${{ matrix.name }} Release asset
