@@ -1,7 +1,7 @@
 ifeq (,$(shell ls .. | grep VERSION))
 
 BASE_DIR := $(CURDIR)
-USE_CCACHE ?= 0
+USE_CCACHE ?= 1
 
 include $(BASE_DIR)/VERSION
 
