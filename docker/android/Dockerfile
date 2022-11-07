@@ -20,7 +20,8 @@ RUN \
     sudo \
     openjdk-11-jdk-headless \
     time \
-    unzip
+    unzip \
+    cmake
 
 RUN update-java-alternatives -s java-1.11.0-openjdk-amd64
 
@@ -31,5 +32,5 @@ COPY scripts/ /root/scripts/
 
 RUN \
   cd /root \
-  && make USE_CCACHE=0 -C build android.fetch
+  && make -C build android.fetch
 
