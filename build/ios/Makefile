@@ -28,9 +28,6 @@ package:
 
 .PHONY: patch
 patch: common-patch
-	echo "apply iOS patches ..." && \
-	cd $(SRC_DIR) && \
-	patch -p2 < $(PATCH_DIR)/macos_h264_encoder.patch
 
 .PHONY: build
 build: patch
