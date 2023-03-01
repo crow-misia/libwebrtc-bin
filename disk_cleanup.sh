@@ -14,4 +14,7 @@ sudo rm -rf /usr/share/dotnet
 # Haskell の削除
 sudo rm -rf /opt/ghc
 
+# Android SDK の削除
+sudo rm -rf /usr/local/lib/android
+
 df -h
