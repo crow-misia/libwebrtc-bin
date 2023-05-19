@@ -55,7 +55,8 @@ jobs:
       - name: Disk Cleanup
         run: .\disk_cleanup.bat
       - name: Build
-        run: .\build.windows.bat
+        run: powershell -NoProfile -ExecutionPolicy Unrestricted .\build.windows.ps1
+        shell: pwsh
       - name: Upload artifact x64
         uses: actions/upload-artifact@v3
         with:

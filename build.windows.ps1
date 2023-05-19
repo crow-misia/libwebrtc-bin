@@ -4,9 +4,11 @@
 
 $ErrorActionPreference = "Stop"
 
+$PSVersionTable
+
 # VERSIONファイル読み込み
 $lines = get-content VERSION
-foreach($line in $lines){
+foreach ($line in $lines) {
   # WEBRTC_COMMITの行のみ取得する
   if ($line -match "^WEBRTC_") {
     $name, $value = $line.split("=",2)
@@ -14,24 +16,9 @@ foreach($line in $lines){
   }
 }
 
-$7Z_DIR = Join-Path (Resolve-Path ".").Path "7z"
-
-# 処理前に以前のファイルを削除する
-if (Test-Path vswhere.exe) {
-  Remove-Item vswhere.exe -Force
-}
-if (Test-Path $7Z_DIR) {
-    Remove-Item $7Z_DIR -Force -Recurse
-}
-
-Invoke-WebRequest -Uri "https://github.com/microsoft/vswhere/releases/download/3.0.3/vswhere.exe" -OutFile vswhere.exe
-
-Invoke-WebRequest -Uri "https://jaist.dl.sourceforge.net/project/sevenzip/7-Zip/22.01/7z2201-x64.exe" -OutFile 7z-x64.exe
-./7z-x64.exe /S /D="""$7Z_DIR"""
-
 # vsdevcmd.bat の設定を入れる
 # https://github.com/microsoft/vswhere/wiki/Find-VC
-$path = .\vswhere.exe -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+$path = vswhere.exe -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
 if ($path) {
   $batpath = join-path $path 'Common7\Tools\vsdevcmd.bat'
   if (test-path $batpath) {
@@ -39,14 +26,14 @@ if ($path) {
       $null = new-item -force -path "Env:\$($Matches[1])" -value $Matches[2]
     }
   }
-}
 
-# dbghelp.dll が無いと怒られてしまうので所定の場所にコピーする (管理者権限で実行する必要がある)
-foreach ($arch in @("x64", "x86")) {
-  $debuggerpath = join-path $path "Common7\IDE\Extensions\TestPlatform\Extensions\Cpp\$arch\dbghelp.dll"
-  if (!(Test-Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch")) {
-    New-Item "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch" -ItemType Directory -Force
-    Copy-Item $debuggerpath "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch\dbghelp.dll"
+  # dbghelp.dll が無いと怒られてしまうので所定の場所にコピーする (管理者権限で実行する必要がある)
+  foreach ($arch in @("x64", "x86")) {
+    $debuggerpath = join-path $path "Common7\IDE\Extensions\TestPlatform\Extensions\Cpp\$arch\dbghelp.dll"
+    if (!(Test-Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch")) {
+      New-Item "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch" -ItemType Directory -Force
+      Copy-Item $debuggerpath "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch\dbghelp.dll"
+    }
   }
 }
 
@@ -166,9 +153,8 @@ Copy-Item $BUILD_DIR\release_x64\obj\webrtc.lib $BUILD_DIR\package\webrtc\releas
 # ファイルを圧縮する
 New-Item $PACKAGE_DIR -ItemType Directory -Force
 Push-Location $BUILD_DIR\package\webrtc
-  cmd /s /c """$7Z_DIR\7z.exe""" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
+  cmd /s /c "7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
 Pop-Location
-
 
 # ライセンス生成 (x86)
 Push-Location $WEBRTC_DIR\src
@@ -183,5 +169,5 @@ Copy-Item $BUILD_DIR\release_x86\obj\webrtc.lib $BUILD_DIR\package\webrtc\releas
 # ファイルを圧縮する
 New-Item $PACKAGE_DIR -ItemType Directory -Force
 Push-Location $BUILD_DIR\package\webrtc
-  cmd /s /c """$7Z_DIR\7z.exe""" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x86.7z *
+  cmd /s /c "7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x86.7z *
 Pop-Location
