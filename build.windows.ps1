@@ -153,7 +153,7 @@ Copy-Item $BUILD_DIR\release_x64\obj\webrtc.lib $BUILD_DIR\package\webrtc\releas
 # ファイルを圧縮する
 New-Item $PACKAGE_DIR -ItemType Directory -Force
 Push-Location $BUILD_DIR\package\webrtc
-  cmd /s /c "7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
+  cmd /s /c "C:\ProgramData\Chocolatey\bin\7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x64.7z *
 Pop-Location
 
 # ライセンス生成 (x86)
@@ -169,5 +169,5 @@ Copy-Item $BUILD_DIR\release_x86\obj\webrtc.lib $BUILD_DIR\package\webrtc\releas
 # ファイルを圧縮する
 New-Item $PACKAGE_DIR -ItemType Directory -Force
 Push-Location $BUILD_DIR\package\webrtc
-  cmd /s /c "7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x86.7z *
+  cmd /s /c "C:\ProgramData\Chocolatey\bin\7z.exe" a -bsp0 -t7z:r -ssc -ms+ $PACKAGE_DIR\libwebrtc-win-x86.7z *
 Pop-Location
