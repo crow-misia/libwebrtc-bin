@@ -7,6 +7,9 @@ on:
       - 'LICENSE'
   pull_request:
 
+permissions:
+  contents: write
+
 jobs:
   build-linux:
     strategy:
@@ -145,4 +148,4 @@ jobs:
           prerelease: false
           artifactContentType: ${{ matrix.type }}
           artifacts: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
-          token: ${{ secrets.PERSONAL_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
