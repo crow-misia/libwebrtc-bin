@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - '**.md'
       - 'LICENSE'
+      - 'publishAar.sh'
   pull_request:
 
 permissions:
