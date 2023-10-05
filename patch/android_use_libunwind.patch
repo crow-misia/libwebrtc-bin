@@ -11,3 +11,18 @@ index 265d4bc07..71ec29437 100644
    }
  
    if (use_afl) {
+diff --git a/src/buildtools/third_party/libunwind/BUILD.gn b/src/buildtools/third_party/libunwind/BUILD.gn
+--- a/src/buildtools/third_party/libunwind/BUILD.gn
++++ b/src/buildtools/third_party/libunwind/BUILD.gn
+@@ -20,7 +20,10 @@
+ }
+ 
+ source_set("libunwind") {
+-  visibility = [ "//buildtools/third_party/libc++abi" ]
++  visibility = [
++    "//build/config:common_deps",
++    "//buildtools/third_party/libc++abi"
++  ]
+   if (is_android) {
+     visibility += [ "//services/tracing/public/cpp" ]
+   }
