@@ -27,7 +27,7 @@ jobs:
       - name: Disk Cleanup
         run: ./disk_cleanup.sh
       - name: Build
-        run: make -C docker ${{ matrix.name }}
+        run: make -C build ${{ matrix.name }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
