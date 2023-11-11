@@ -21,7 +21,7 @@ jobs:
           - linux-arm64
           - linux-x64
           - android
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - name: Disk Cleanup
@@ -41,7 +41,7 @@ jobs:
         name:
           - macos-arm64
           - macos-x64
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v4
       - name: Build
