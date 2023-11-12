@@ -17,4 +17,8 @@ sudo rm -rf /opt/ghc
 # Android SDK の削除
 sudo rm -rf /usr/local/lib/android
 
+# 未使用パッケージを削除
+sudo apt-get remove aspnetcore-* dotnet-* firefox gcc libmysqlclient* mysql-*
+sudo apt-get autoremove --purge
+
 df -h
