@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 
 COPY scripts/ /root/scripts/
-RUN scripts/apt_install.sh && sudo apt-get install -y openjdk-11-jdk
+RUN scripts/apt_install.sh
 
 COPY config/android/ /root/config/android/
 COPY build/ /root/build/

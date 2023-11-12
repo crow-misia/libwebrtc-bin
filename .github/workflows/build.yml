@@ -26,6 +26,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Disk Cleanup
         run: ./disk_cleanup.sh
+      - name: Setup
+        run: sudo scripts/apt_install.sh
       - name: Build
         run: make -C build ${{ matrix.name }}
       - name: Upload artifact
@@ -73,7 +75,7 @@ jobs:
           path: package/libwebrtc-win-x86.7z
 
   build-ios:
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v4
       - name: Build
