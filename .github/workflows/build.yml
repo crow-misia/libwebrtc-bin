@@ -6,6 +6,7 @@ on:
       - '**.md'
       - 'LICENSE'
       - 'publishAar.sh'
+      - 'docker/**'
   pull_request:
 
 permissions:
