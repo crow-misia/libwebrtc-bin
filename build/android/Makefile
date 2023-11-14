@@ -20,7 +20,8 @@ EXTRA_GN_ARGS := \
 	is_component_build=false \
 	rtc_enable_protobuf=false \
 	rtc_build_json=true \
-	use_rtti=true
+	use_rtti=true \
+	use_custom_libcxx=false
 
 .PHONY: all
 all: clean build package
@@ -65,7 +66,7 @@ patch: common-patch
 
 define build-android
 	cd $(SRC_DIR) && \
-	gn gen $(BUILD_DIR)/static/$1 --args='$(EXTRA_GN_ARGS) use_custom_libcxx=false $(CC_WRAPPER) target_os="android" target_cpu="$2" $3' && \
+	gn gen $(BUILD_DIR)/static/$1 --args='$(EXTRA_GN_ARGS) $(CC_WRAPPER) target_os="android" target_cpu="$2" $3' && \
 	ninja -C $(BUILD_DIR)/static/$1 && \
 	ninja -C $(BUILD_DIR)/static/$1 native_api
 
