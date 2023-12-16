@@ -32,10 +32,11 @@ jobs:
       - name: Build
         run: make -C build ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
+          compression-level: 0
 
   build-macos:
     strategy:
@@ -50,10 +51,11 @@ jobs:
       - name: Build
         run: make -C build USE_CCACHE=0 ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
+          compression-level: 0
 
   build-windows:
     runs-on: windows-2019
@@ -65,15 +67,17 @@ jobs:
         run: powershell -NoProfile -ExecutionPolicy Unrestricted .\build.windows.ps1
         shell: pwsh
       - name: Upload artifact x64
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libwebrtc-win-x64.7z
           path: package/libwebrtc-win-x64.7z
+          compression-level: 0
       - name: Upload artifact x86
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libwebrtc-win-x86.7z
           path: package/libwebrtc-win-x86.7z
+          compression-level: 0
 
   build-ios:
     runs-on: macos-12
@@ -82,10 +86,11 @@ jobs:
       - name: Build
         run: make -C build USE_CCACHE=0 ios
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libwebrtc-ios.zip
           path: package/libwebrtc-ios.zip
+          compression-level: 0
 
   release:
     strategy:
@@ -140,13 +145,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download ${{ matrix.name }}
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
       - name: Upload ${{ matrix.name }} Release asset
         uses: ncipollo/release-action@v1
         with:
-          name: Release m${{ github.ref }}
+          name: Release m${{ github.ref_name }}
           allowUpdates: true
           draft: false
           prerelease: false
