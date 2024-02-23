@@ -5,6 +5,12 @@ df -h
 # Cache 済み Docker Image の削除
 docker rmi $(docker images -q -a)
 
+# ghcup の削除
+sudo rm -rf /usr/local/.ghcup
+
+# Swift の削除
+sudo rm -rf /usr/share/swift
+
 # Boost の削除
 sudo rm -rf /usr/local/share/boost
 
