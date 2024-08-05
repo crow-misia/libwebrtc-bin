@@ -10,12 +10,14 @@ TARGET_CPU =
 include ../common.mk
 
 EXTRA_GN_ARGS := \
-	use_rtti=true \
+	is_debug=false
+	$(RTC_USE_H264) \
 	rtc_libvpx_build_vp9=true \
 	rtc_include_tests=false \
-	rtc_build_tools=false \
 	rtc_build_examples=false \
-	rtc_use_h264=false
+	rtc_build_tools=false \
+	rtc_use_perfetto=false \
+	use_rtti=true 
 
 .PHONY: all
 all: clean build package
