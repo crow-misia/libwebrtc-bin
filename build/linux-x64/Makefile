@@ -15,14 +15,15 @@ EXTRA_GN_ARGS := \
 	is_debug=false \
 	$(RTC_USE_H264) \
 	$(RTC_USE_X11) \
-	rtc_include_tests=false \
-	rtc_build_tools=false \
 	rtc_build_examples=false \
-	rtc_use_pipewire=false \
 	rtc_build_json=true \
-	use_rtti=true \
+	rtc_build_tools=false \
+	rtc_include_tests=false \
+	rtc_use_perfetto=false \
+	rtc_use_pipewire=false \
 	use_custom_libcxx=false \
-	use_custom_libcxx_for_host=false
+	use_custom_libcxx_for_host=false \
+	use_rtti=true
 
 .PHONY: all
 all: clean build package
