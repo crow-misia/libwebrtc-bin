@@ -12,14 +12,15 @@ include ../common.mk
 EXTRA_GN_ARGS := \
 	is_debug=false \
 	is_java_debug=false \
-	$(RTC_USE_H264) \
-	rtc_build_tools=false \
-	rtc_build_examples=false \
-	rtc_include_tests=false \
 	is_clang=true \
 	is_component_build=false \
-	rtc_enable_protobuf=false \
+	$(RTC_USE_H264) \
+	rtc_build_examples=false \
 	rtc_build_json=true \
+	rtc_build_tools=false \
+	rtc_enable_protobuf=false \
+	rtc_include_tests=false \
+	rtc_use_perfetto=false \
 	use_rtti=true
 
 .PHONY: all
