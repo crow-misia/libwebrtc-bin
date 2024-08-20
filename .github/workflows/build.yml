@@ -45,7 +45,7 @@ jobs:
         name:
           - macos-arm64
           - macos-x64
-    runs-on: macos-12
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - name: Build
@@ -80,7 +80,7 @@ jobs:
           compression-level: 0
 
   build-ios:
-    runs-on: macos-12
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
       - name: Build
