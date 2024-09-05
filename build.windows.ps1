@@ -26,15 +26,6 @@ if ($path) {
       $null = new-item -force -path "Env:\$($Matches[1])" -value $Matches[2]
     }
   }
-
-  # dbghelp.dll が無いと怒られてしまうので所定の場所にコピーする (管理者権限で実行する必要がある)
-  foreach ($arch in @("x64", "x86")) {
-    $debuggerpath = join-path $path "Common7\IDE\Extensions\TestPlatform\Extensions\Cpp\$arch\dbghelp.dll"
-    if (!(Test-Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch")) {
-      New-Item "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch" -ItemType Directory -Force
-      Copy-Item $debuggerpath "C:\Program Files (x86)\Windows Kits\10\Debuggers\$arch\dbghelp.dll"
-    }
-  }
 }
 
 $REPO_DIR = Resolve-Path "."
