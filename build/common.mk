@@ -49,7 +49,8 @@ common-patch:
 	cd $(SRC_DIR) && \
 	patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch && \
 	patch -p2 < $(PATCH_DIR)/4k.patch && \
-	patch -p2 < $(PATCH_DIR)/add_licenses.patch
+	patch -p2 < $(PATCH_DIR)/add_licenses.patch && \
+	patch -p2 < $(PATCH_DIR)/borning_ssl_missing_string_header.patch
 
 .PHONY: common-package
 common-package: copy
