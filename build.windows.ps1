@@ -75,7 +75,6 @@ Push-Location $WEBRTC_DIR
     git apply --ignore-whitespace -p 2 $PATCH_DIR\add_licenses.patch
     git apply --ignore-whitespace -p 2 $PATCH_DIR\windows_fix_towupper.patch
     git apply --ignore-whitespace $PATCH_DIR\windows_fix_abseil.patch
-    git apply --ignore-whitespace -p 2 $PATCH_DIR\borning_ssl_missing_string_header.patch
   Pop-Location
 Pop-Location
 
