@@ -1,0 +1,10 @@
+--- a/rtc_base/ssl_stream_adapter.h
++++ b/rtc_base/ssl_stream_adapter.h
+@@ -15,6 +15,7 @@
+ #include <stdint.h>
+ 
+ #include <memory>
++#include <optional>
+ #include <string>
+ #include <vector>
+ 
