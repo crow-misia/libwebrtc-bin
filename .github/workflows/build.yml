@@ -24,7 +24,8 @@ jobs:
           - android
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Disk Cleanup
         run: ./disk_cleanup.sh
       - name: Setup
@@ -32,7 +33,7 @@ jobs:
       - name: Build
         run: make -C build ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -47,13 +48,14 @@ jobs:
           - macos-x64
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Disk Cleanup
         run: ./disk_cleanup_mac.sh
       - name: Build
         run: make -C build USE_CCACHE=0 ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -62,20 +64,21 @@ jobs:
   build-windows:
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Disk Cleanup
         run: .\disk_cleanup.bat
       - name: Build
         run: powershell -NoProfile -ExecutionPolicy Unrestricted .\build.windows.ps1
         shell: pwsh
       - name: Upload artifact x64
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: libwebrtc-win-x64.7z
           path: package/libwebrtc-win-x64.7z
           compression-level: 0
       - name: Upload artifact x86
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: libwebrtc-win-x86.7z
           path: package/libwebrtc-win-x86.7z
@@ -84,13 +87,14 @@ jobs:
   build-ios:
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Disk Cleanup
         run: ./disk_cleanup_mac.sh
       - name: Build
         run: make -C build USE_CCACHE=0 ios
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         with:
           name: libwebrtc-ios.zip
           path: package/libwebrtc-ios.zip
@@ -149,11 +153,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download ${{ matrix.name }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@7fba95161a0924506ed1ae69cdbae8371ee00b3f # v4.1.8
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
       - name: Upload ${{ matrix.name }} Release asset
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@cdcc88a9acf3ca41c16c37bb7d21b9ad48560d87 # v1.15.0
         with:
           name: Release m${{ github.ref_name }}
           allowUpdates: true
