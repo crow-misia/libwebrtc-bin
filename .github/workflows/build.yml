@@ -2,12 +2,16 @@ name: build
 
 on:
   push:
+    brances:
+      - 'm**'
     paths-ignore:
       - '**.md'
       - 'LICENSE'
       - 'publishAar.sh'
       - 'docker/**'
   pull_request:
+    branches-ignore:
+      - 'm**'
 
 permissions:
   contents: write
