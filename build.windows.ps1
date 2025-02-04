@@ -60,6 +60,10 @@ $Env:PATH = "$DEPOT_TOOLS_DIR;$Env:PATH"
 # Choco へのパスを削除
 $Env:PATH = $Env:Path.Replace("C:\ProgramData\Chocolatey\bin;", "")
 
+# Git設定
+git config --global core.longpaths true
+git config --global depot-tools.allowGlobalGitConfig true
+
 # WebRTC のソース取得
 New-Item $WEBRTC_DIR -ItemType Directory -Force
 Push-Location $WEBRTC_DIR
