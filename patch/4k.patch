@@ -5,7 +5,7 @@ diff --git a/src/video/config/encoder_stream_factory.cc b/src/video/config/encod
 index fceadf09b4..a73b7e9f6f 100644
 --- a/src/video/config/encoder_stream_factory.cc
 +++ b/src/video/config/encoder_stream_factory.cc
-@@ -86,8 +86,10 @@ static int GetMaxDefaultVideoBitrateKbps(int width,
+@@ -91,8 +91,10 @@ static int GetMaxDefaultVideoBitrateKbps(int width,
      max_bitrate = 1700;
    } else if (width * height <= 960 * 540) {
      max_bitrate = 2000;
