@@ -1,13 +1,3 @@
---- a/third_party/perfetto/include/perfetto/tracing/track.h
-+++ b/third_party/perfetto/include/perfetto/tracing/track.h
-@@ -33,6 +33,7 @@
- #include <stdint.h>
- #include <map>
- #include <mutex>
-+#include <optional>
- 
- namespace perfetto {
- namespace internal {
 --- a/third_party/perfetto/include/perfetto/tracing/internal/track_event_internal.h
 +++ b/third_party/perfetto/include/perfetto/tracing/internal/track_event_internal.h
 @@ -29,6 +29,7 @@
