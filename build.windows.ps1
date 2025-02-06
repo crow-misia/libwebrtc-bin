@@ -75,8 +75,8 @@ Push-Location $WEBRTC_DIR
     git checkout -f $WEBRTC_COMMIT
     gclient sync
 
-    git apply --ignore-space-change --ignore-whitespace -p 2 $PATCH_DIR\4k.patch
-    git apply --ignore-space-change --ignore-whitespace -p 2 $PATCH_DIR\add_licenses.patch
+    git apply --ignore-space-change --ignore-whitespace $PATCH_DIR\4k.patch
+    git apply --ignore-space-change --ignore-whitespace $PATCH_DIR\add_licenses.patch
     git apply --ignore-space-change --ignore-whitespace $PATCH_DIR\windows_fix_abseil.patch
     git apply --ignore-space-change --ignore-whitespace $PATCH_DIR\windows_fix_optional.patch
   Pop-Location

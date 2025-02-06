@@ -1,10 +1,10 @@
 # Copyright 2018-2019, Shiguredo Inc, tnoho and melpon and kdxu
 # from https://github.com/shiguredo/momo/blob/develop/patch/4k.patch
 
-diff --git a/src/video/config/encoder_stream_factory.cc b/src/video/config/encoder_stream_factory.cc
+diff --git a/video/config/encoder_stream_factory.cc b/video/config/encoder_stream_factory.cc
 index fceadf09b4..a73b7e9f6f 100644
---- a/src/video/config/encoder_stream_factory.cc
-+++ b/src/video/config/encoder_stream_factory.cc
+--- a/video/config/encoder_stream_factory.cc
++++ b/video/config/encoder_stream_factory.cc
 @@ -91,8 +91,10 @@ static int GetMaxDefaultVideoBitrateKbps(int width,
      max_bitrate = 1700;
    } else if (width * height <= 960 * 540) {

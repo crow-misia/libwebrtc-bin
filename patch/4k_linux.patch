@@ -1,10 +1,10 @@
 # Copyright 2018-2019, Shiguredo Inc, tnoho and melpon and kdxu
 # from https://github.com/shiguredo/momo/blob/develop/patch/4k.patch
 
-diff --git a/src/modules/video_capture/linux/device_info_v4l2.cc b/src/modules/video_capture/linux/device_info_v4l2.cc
+diff --git a/modules/video_capture/linux/device_info_v4l2.cc b/modules/video_capture/linux/device_info_v4l2.cc
 index 39f72b0..3cb1226 100644
---- a/src/modules/video_capture/linux/device_info_v4l2.cc
-+++ b/src/modules/video_capture/linux/device_info_v4l2.cc
+--- a/modules/video_capture/linux/device_info_v4l2.cc
++++ b/modules/video_capture/linux/device_info_v4l2.cc
 @@ -232,11 +232,11 @@ int32_t DeviceInfoV4l2::FillCapabilities(int fd) {
    unsigned int videoFormats[] = {V4L2_PIX_FMT_MJPEG, V4L2_PIX_FMT_YUV420,
                                   V4L2_PIX_FMT_YUYV, V4L2_PIX_FMT_UYVY};
