@@ -159,7 +159,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download ${{ matrix.name }}
-        uses: actions/download-artifact@7fba95161a0924506ed1ae69cdbae8371ee00b3f # v4.1.8
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.8
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
       - name: Upload ${{ matrix.name }} Release asset
