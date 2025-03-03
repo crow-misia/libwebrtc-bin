@@ -22,6 +22,7 @@ concurrency:
 
 jobs:
   build-linux:
+    timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
@@ -48,6 +49,7 @@ jobs:
           compression-level: 0
 
   build-macos:
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -70,6 +72,7 @@ jobs:
           compression-level: 0
 
   build-windows:
+    timeout-minutes: 180
     runs-on: windows-2022
     steps:
       - name: Checkout
@@ -91,6 +94,7 @@ jobs:
           compression-level: 0
 
   build-ios:
+    timeout-minutes: 90
     runs-on: macos-14
     steps:
       - name: Checkout
@@ -107,6 +111,7 @@ jobs:
           compression-level: 0
 
   release:
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       max-parallel: 1
