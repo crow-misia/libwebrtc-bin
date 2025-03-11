@@ -1,7 +1,7 @@
-diff --git a/src/tools_webrtc/libs/generate_licenses.py b/src/tools_webrtc/libs/generate_licenses.py
+diff --git a/tools_webrtc/libs/generate_licenses.py b/tools_webrtc/libs/generate_licenses.py
 index 86b4cd01f0..ece2fc710f 100755
---- a/src/tools_webrtc/libs/generate_licenses.py
-+++ b/src/tools_webrtc/libs/generate_licenses.py
+--- a/tools_webrtc/libs/generate_licenses.py
++++ b/tools_webrtc/libs/generate_licenses.py
 @@ -48,6 +48,12 @@ LIB_TO_LICENSES_DICT = {
          'third_party/android_deps/libs/'
          'com_google_errorprone_error_prone_core/LICENSE'
