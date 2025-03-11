@@ -125,7 +125,7 @@ $WEBRTC_VERSION | Out-File $BUILD_DIR\package\webrtc\VERSION
 
 # WebRTC のヘッダーだけをパッケージングする
 New-Item $BUILD_DIR\package\webrtc\include -ItemType Directory -Force
-robocopy "$WEBRTC_DIR\src" "$BUILD_DIR\package\webrtc\include" *.h *.hpp /S /NP /NS /NC /NFL /NDL
+robocopy "$WEBRTC_DIR\src" "$BUILD_DIR\package\webrtc\include" *.h *.hpp *.inc /S /NP /NS /NC /NFL /NDL
 
 # ライブラリディレクトリ作成
 New-Item $BUILD_DIR\package\webrtc\debug -ItemType Directory -Force
