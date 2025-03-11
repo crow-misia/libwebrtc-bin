@@ -1,5 +1,5 @@
---- a/src/build_overrides/build.gni	2021-10-12 08:50:30.503989137 +0900
-+++ b/src/build_overrides/build.gni	2021-10-13 00:26:46.028101036 +0900
+--- a/build_overrides/build.gni	2021-10-12 08:50:30.503989137 +0900
++++ b/build_overrides/build.gni	2021-10-13 00:26:46.028101036 +0900
 @@ -35,7 +35,7 @@
  # Use bundled hermetic Xcode installation maintainted by Chromium,
  # except for local iOS builds where it's unsupported.

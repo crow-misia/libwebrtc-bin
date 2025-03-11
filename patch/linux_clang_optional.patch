@@ -1,7 +1,7 @@
-diff --git a/src/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h b/src/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h
+diff --git a/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h b/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h
 index 425ca2a0c8..b45c6dd777 100644
---- a/src/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h
-+++ b/src/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h
+--- a/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h
++++ b/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h
 @@ -124,7 +124,8 @@ class LossBasedBweV2 {
      bool use_byte_loss_rate = false;
      TimeDelta padding_duration = TimeDelta::Zero();
