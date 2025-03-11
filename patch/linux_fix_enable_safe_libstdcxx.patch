@@ -1,5 +1,5 @@
---- a/src/build_overrides/build.gni
-+++ b/src/build_overrides/build.gni
+--- a/build_overrides/build.gni
++++ b/build_overrides/build.gni
 @@ -11,6 +11,7 @@ enable_java_templates = true
  
  # Enables assertions on safety checks in libc++.
