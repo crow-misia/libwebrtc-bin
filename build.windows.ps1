@@ -79,6 +79,7 @@ Push-Location $WEBRTC_DIR
     git apply -p1 --ignore-space-change --ignore-whitespace --whitespace=nowarn --reject $PATCH_DIR\add_licenses.patch
     git apply -p1 --ignore-space-change --ignore-whitespace --whitespace=nowarn --reject $PATCH_DIR\windows_fix_abseil.patch
     git apply -p1 --ignore-space-change --ignore-whitespace --whitespace=nowarn --reject $PATCH_DIR\windows_fix_optional.patch
+    git apply -p1 --ignore-space-change --ignore-whitespace --whitespace=nowarn --reject $PATCH_DIR\windows_add_deps.patch
   Pop-Location
 Pop-Location
 
@@ -101,24 +102,7 @@ Pop-Location
 foreach ($build in @("debug_x64", "release_x64", "debug_x86", "release_x86")) {
   Push-Location $WEBRTC_DIR\src
     ninja -C "$BUILD_DIR\$build"
-    ninja -C "$BUILD_DIR\$build" audio_device_module_from_input_and_output
   Pop-Location
-
-  # このままだと webrtc.lib に含まれないファイルがあるので、いくつか追加する
-  Push-Location $BUILD_DIR\$build\obj
-    lib.exe `
-      /out:$BUILD_DIR\$build\webrtc.lib webrtc.lib `
-      api\task_queue\default_task_queue_factory\default_task_queue_factory_win.obj `
-      rtc_base\rtc_task_queue_win\task_queue_win.obj `
-      modules\audio_device\audio_device_module_from_input_and_output\audio_device_factory.obj `
-      modules\audio_device\audio_device_module_from_input_and_output\audio_device_module_win.obj `
-      modules\audio_device\audio_device_module_from_input_and_output\core_audio_base_win.obj `
-      modules\audio_device\audio_device_module_from_input_and_output\core_audio_input_win.obj `
-      modules\audio_device\audio_device_module_from_input_and_output\core_audio_output_win.obj `
-      modules\audio_device\windows_core_audio_utility\core_audio_utility_win.obj `
-      modules\audio_device\audio_device_name\audio_device_name.obj
-  Pop-Location
-  Move-Item $BUILD_DIR\$build\webrtc.lib $BUILD_DIR\$build\obj\webrtc.lib -Force
 }
 
 # バージョンファイルコピー
