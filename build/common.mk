@@ -67,7 +67,7 @@ common-copy: generate-licenses
 	mkdir -p $(PACKAGE_DIR)/include
 	cp $(BUILD_DIR)/obj/libwebrtc.a $(PACKAGE_DIR)/lib/libwebrtc.a
 
-	rsync -amv '--include=*/' '--include=*.h' '--include=*.hpp' '--exclude=*' $(SRC_DIR)/. $(PACKAGE_DIR)/include/.
+	rsync -amv '--include=*/' '--include=*.h' '--include=*.hpp' '--include=*.inc' '--exclude=*' $(SRC_DIR)/. $(PACKAGE_DIR)/include/.
 
 	cp -f $(BUILD_DIR)/LICENSE.md $(PACKAGE_DIR)/NOTICE
 	echo '$(WEBRTC_VERSION)' > $(PACKAGE_DIR)/VERSION
