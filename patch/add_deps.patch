@@ -1,0 +1,16 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index 689de89c06..accbc880af 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -561,6 +561,11 @@ if (!build_with_chromium) {
+       "pc:rtc_pc",
+       "sdk",
+       "video",
++      "//third_party/zlib",
++      "rtc_base:log_sinks",
++      "rtc_base:socket_adapters",
++      "media:rtc_simulcast_encoder_adapter",
++      "api:enable_media_with_defaults",
+     ]
+ 
+     if (rtc_include_builtin_audio_codecs) {
