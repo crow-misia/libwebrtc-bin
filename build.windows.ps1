@@ -83,11 +83,11 @@ Get-PSDrive
 
 Push-Location $WEBRTC_DIR\src
   # WebRTC Debugビルド x64
-  gn gen $BUILD_DIR\debug_x64 --args='is_debug=true treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_tools=false rtc_build_examples=false rtc_use_perfetto=false is_component_build=false use_rtti=true use_custom_libcxx=false'
+  gn gen $BUILD_DIR\debug_x64 --args='target_os=\"win\" target_cpu=\"x64\" is_debug=true treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_tools=false rtc_build_examples=false rtc_use_perfetto=false is_component_build=false use_rtti=true use_custom_libcxx=false'
   ninja -C "$BUILD_DIR\debug_x64"
 
   # WebRTC Releaseビルド x64
-  gn gen $BUILD_DIR\release_x64 --args='is_debug=false treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_tools=false rtc_build_examples=false rtc_use_perfetto=false is_component_build=false use_rtti=true strip_debug_info=true symbol_level=0 use_custom_libcxx=false'
+  gn gen $BUILD_DIR\release_x64 --args='target_os=\"win\" target_cpu=\"x64\" is_debug=false treat_warnings_as_errors=false rtc_use_h264=false rtc_include_tests=false rtc_build_tools=false rtc_build_examples=false rtc_use_perfetto=false is_component_build=false use_rtti=true strip_debug_info=true symbol_level=0 use_custom_libcxx=false'
   ninja -C "$BUILD_DIR\release_x64"
 
   # WebRTC Debugビルド x86
