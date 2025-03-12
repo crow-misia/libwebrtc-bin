@@ -21,7 +21,8 @@ EXTRA_GN_ARGS := \
 	rtc_enable_protobuf=false \
 	rtc_include_tests=false \
 	rtc_use_perfetto=false \
-	use_rtti=true
+	use_rtti=true \
+	libyuv_include_tests=false
 
 .PHONY: all
 all: clean build package

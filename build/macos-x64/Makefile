@@ -18,16 +18,17 @@ EXTRA_GN_ARGS := \
 	is_component_build=false \
 	treat_warnings_as_errors=false \
 	$(RTC_USE_H264) \
-	rtc_include_tests=false \
-	rtc_build_tools=false \
 	rtc_build_examples=false \
-	rtc_enable_symbol_export=true \
+	rtc_build_tools=false \
 	rtc_enable_objc_symbol_export=true \
+	rtc_enable_symbol_export=true \
+	rtc_include_tests=false \
 	rtc_libvpx_build_vp9=true \
 	rtc_use_perfetto=false \
 	use_custom_libcxx=false \
 	use_custom_libcxx_for_host=false \
-	use_rtti=true
+	use_rtti=true \
+	libyuv_include_tests=false
 
 .PHONY: all
 all: clean build package

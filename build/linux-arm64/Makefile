@@ -23,7 +23,8 @@ EXTRA_GN_ARGS := \
 	rtc_use_pipewire=false \
 	use_custom_libcxx=false \
 	use_custom_libcxx_for_host=false \
-	use_rtti=true
+	use_rtti=true \
+	libyuv_include_tests=false
 
 .PHONY: all
 all: clean build package
