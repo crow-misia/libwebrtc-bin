@@ -11,3 +11,15 @@ index 425ca2a0c8..b45c6dd777 100644
    };
  
    struct Derivatives {
+diff --git a/call/rtp_config.h b/call/rtp_config.h
+index d77289febc..87b9fee1a3 100644
+--- a/call/rtp_config.h
++++ b/call/rtp_config.h
+@@ -77,6 +77,7 @@ struct RtpStreamConfig {
+   int payload_type = -1;
+   bool raw_payload = false;
+   struct Rtx {
++    Rtx();
+     std::string ToString() const;
+     // SSRC to use for the RTX stream.
+     uint32_t ssrc = 0;
