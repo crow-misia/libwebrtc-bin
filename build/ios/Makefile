@@ -34,5 +34,8 @@ patch: common-patch
 
 .PHONY: build
 build: patch
+	mkdir -p $(SRC_DIR)/out && \
+	mkdir -p $(BUILD_DIR) && \
 	cd $(SRC_DIR)/tools_webrtc/ios && \
-	vpython3 build_ios_libs.py -o $(BUILD_DIR) --build_config release --extra-gn-args '$(EXTRA_GN_ARGS) $(CC_WRAPPER)'
+	vpython3 build_ios_libs.py --output-dir out --build_config release --extra-gn-args '$(EXTRA_GN_ARGS) $(CC_WRAPPER)' && \
+	mv $(SRC_DIR)/tools_webrtc/ios/out/WebRTC.xcframework $(BUILD_DIR)/
