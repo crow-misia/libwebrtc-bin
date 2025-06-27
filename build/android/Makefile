@@ -80,8 +80,10 @@ endef
 .PHONY: build
 build: patch
 	cd $(SRC_DIR) && \
+	mkdir -p $(SRC_DIR)/out && \
+	mkdir -p $(BUILD_DIR) && \
 	vpython3 $(SRC_DIR)/tools_webrtc/android/build_aar.py \
-	  --build-dir $(BUILD_DIR)/aar \
+	  --build-dir $(SRC_DIR)/out \
 	  --output $(BUILD_DIR)/libwebrtc.aar \
 	  --arch armeabi-v7a arm64-v8a x86_64 \
 	  --extra-gn-args '$(EXTRA_GN_ARGS) $(CC_WRAPPER)'
