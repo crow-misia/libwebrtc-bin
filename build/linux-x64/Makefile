@@ -21,8 +21,6 @@ EXTRA_GN_ARGS := \
 	rtc_include_tests=false \
 	rtc_use_perfetto=false \
 	rtc_use_pipewire=false \
-	use_custom_libcxx=false \
-	use_custom_libcxx_for_host=false \
 	use_rtti=true \
 	libyuv_include_tests=false
 
