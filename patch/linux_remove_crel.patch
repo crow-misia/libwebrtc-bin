@@ -1,16 +1,18 @@
 diff --git a/build/config/compiler/BUILD.gn b/build/config/compiler/BUILD.gn
-index 88109264e..a361b910e 100644
+index fca6c9295..bc3a0337d 100644
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -625,14 +625,6 @@ config("compiler") {
-     } else {
+@@ -687,16 +687,5 @@ config("compiler") {
        cflags += [ "-ffp-contract=off" ]
      }
 -
 -    # Enable ELF CREL (see crbug.com/357878242) for all platforms that use ELF
 -    # (excluding toolchains that use an older version of LLVM).
 -    # TODO(crbug.com/376278218): This causes segfault on Linux ARM builds.
+-    # It also causes segfault on Linux s390x:
+-    # https://github.com/llvm/llvm-project/issues/149511
 -    if (is_linux && use_lld && !llvm_android_mainline && current_cpu != "arm" &&
+-        current_cpu != "s390x" &&
 -        default_toolchain != "//build/toolchain/cros:target") {
 -      cflags += [ "-Wa,--crel,--allow-experimental-crel" ]
 -    }
