@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Disk Cleanup
         run: ./disk_cleanup.sh
       - name: Setup
@@ -59,7 +59,7 @@ jobs:
     runs-on: macos-15
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Disk Cleanup
         run: ./disk_cleanup_mac.sh
       - name: Build
@@ -76,7 +76,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Build
         run: powershell -NoProfile -ExecutionPolicy Unrestricted .\build.windows.ps1
         shell: pwsh
@@ -98,7 +98,7 @@ jobs:
     runs-on: macos-15
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Disk Cleanup
         run: ./disk_cleanup_mac.sh
       - name: Build
@@ -164,11 +164,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download ${{ matrix.name }}
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.1.8
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v4.1.8
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
       - name: Upload ${{ matrix.name }} Release asset
-        uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1.16.0
+        uses: ncipollo/release-action@bcfe5470707e8832e12347755757cec0eb3c22af # v1.18.0
         with:
           name: Release m${{ github.ref_name }}
           allowUpdates: true
