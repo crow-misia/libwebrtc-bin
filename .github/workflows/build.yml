@@ -180,7 +180,7 @@ jobs:
         with:
           name: Release m${{ github.ref_name }}
           allowUpdates: true
-          draft: false
+          draft: true
           prerelease: false
           artifactContentType: ${{ matrix.type }}
           artifacts: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
