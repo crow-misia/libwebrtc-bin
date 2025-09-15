@@ -62,7 +62,6 @@ patch: common-patch
 	patch -p1 < $(PATCH_DIR)/disable_use_hermetic_xcode_on_linux.patch && \
 	patch -p1 < $(PATCH_DIR)/android_version.patch && \
 	patch -p1 < $(PATCH_DIR)/android_use_libunwind.patch && \
-	patch -p1 < $(PATCH_DIR)/android_add_environment_java.patch && \
 	patch -p1 < $(PATCH_DIR)/linux_fix_enable_safe_libstdcxx.patch && \
 	$(SCRIPTS_DIR)/generate_android_version.sh $(SRC_DIR) $(WEBRTC_COMMIT) $(WEBRTC_SEMANTIC_VERSION)
 
