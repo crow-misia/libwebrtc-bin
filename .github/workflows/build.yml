@@ -44,7 +44,7 @@ jobs:
       - name: Build
         run: make -C build ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -69,7 +69,7 @@ jobs:
       - name: Build
         run: make -C build USE_CCACHE=0 ${{ matrix.name }}
       - name: Upload artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: libwebrtc-${{ matrix.name }}.tar.xz
           path: package/libwebrtc-${{ matrix.name }}.tar.xz
@@ -87,13 +87,13 @@ jobs:
         run: powershell -NoProfile -ExecutionPolicy Unrestricted .\build.windows.ps1
         shell: pwsh
       - name: Upload artifact x64
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: libwebrtc-win-x64.7z
           path: package/libwebrtc-win-x64.7z
           compression-level: 0
       - name: Upload artifact x86
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: libwebrtc-win-x86.7z
           path: package/libwebrtc-win-x86.7z
@@ -112,7 +112,7 @@ jobs:
       - name: Build
         run: make -C build USE_CCACHE=0 ios
       - name: Upload artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: libwebrtc-ios.zip
           path: package/libwebrtc-ios.zip
@@ -172,7 +172,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download ${{ matrix.name }}
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v4.1.8
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v4.1.8
         with:
           name: libwebrtc-${{ matrix.name }}.${{ matrix.ext }}
       - name: Upload ${{ matrix.name }} Release asset
