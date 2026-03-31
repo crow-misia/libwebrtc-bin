@@ -25,8 +25,6 @@ EXTRA_GN_ARGS := \
 	rtc_include_tests=false \
 	rtc_libvpx_build_vp9=true \
 	rtc_use_perfetto=false \
-	use_custom_libcxx=false \
-	use_custom_libcxx_for_host=false \
 	use_rtti=true \
 	libyuv_include_tests=false
 
