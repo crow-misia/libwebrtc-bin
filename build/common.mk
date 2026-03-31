@@ -47,7 +47,6 @@ endif
 common-patch:
 	echo "apply patches ..." && \
 	cd $(SRC_DIR) && \
-	patch -p1 < $(PATCH_DIR)/nacl_armv6_2.patch && \
 	patch -p1 < $(PATCH_DIR)/4k.patch && \
 	patch -p1 < $(PATCH_DIR)/add_licenses.patch && \
 	patch -p1 < $(PATCH_DIR)/add_deps.patch
