@@ -58,7 +58,8 @@ jobs:
         name:
           - macos-arm64
           - macos-x64
-    runs-on: macos-15
+        xcode: ["26.0"]
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -66,6 +67,8 @@ jobs:
           persist-credentials: false
       - name: Disk Cleanup
         run: ./disk_cleanup_mac.sh
+      - name: Select Xcode ${{ matrix.xcode }}
+        run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
       - name: Build
         run: make -C build USE_CCACHE=0 ${{ matrix.name }}
       - name: Upload artifact
@@ -101,7 +104,11 @@ jobs:
 
   build-ios:
     timeout-minutes: 90
-    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        xcode: ["26.0"]
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -109,6 +116,8 @@ jobs:
           persist-credentials: false
       - name: Disk Cleanup
         run: ./disk_cleanup_mac.sh
+      - name: Select Xcode ${{ matrix.xcode }}
+        run: sudo xcode-select --switch /Applications/Xcode_${{ matrix.xcode }}.app/Contents/Developer
       - name: Build
         run: make -C build USE_CCACHE=0 ios
       - name: Upload artifact
