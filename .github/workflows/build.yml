@@ -2,8 +2,10 @@ name: build
 
 on:
   push:
-    brances:
+    branches:
       - 'm**'
+    tags:
+      - '**'
     paths-ignore:
       - '**.md'
       - 'LICENSE'
