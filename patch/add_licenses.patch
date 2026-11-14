@@ -1,8 +1,8 @@
 diff --git a/tools_webrtc/libs/generate_licenses.py b/tools_webrtc/libs/generate_licenses.py
-index 86b4cd01f0..ece2fc710f 100755
+index b382f2bd58..875c30c7ec 100755
 --- a/tools_webrtc/libs/generate_licenses.py
 +++ b/tools_webrtc/libs/generate_licenses.py
-@@ -48,6 +48,12 @@ LIB_TO_LICENSES_DICT = {
+@@ -49,6 +49,12 @@ LIB_TO_LICENSES_DICT = {
          'third_party/android_deps/libs/'
          'com_google_errorprone_error_prone_core/LICENSE'
      ],
@@ -15,11 +15,19 @@ index 86b4cd01f0..ece2fc710f 100755
      'fiat': ['third_party/boringssl/src/third_party/fiat/LICENSE'],
      'guava': ['third_party/android_deps/libs/com_google_guava_guava/LICENSE'],
      'ijar': ['third_party/ijar/LICENSE'],
-@@ -62,6 +62,7 @@ LIB_TO_LICENSES_DICT = {
-     'libvpx': ['third_party/libvpx/source/libvpx/LICENSE'],
+@@ -63,6 +69,7 @@ LIB_TO_LICENSES_DICT = {
      'libyuv': ['third_party/libyuv/LICENSE'],
      'llvm-libc': ['third_party/llvm-libc/src/LICENSE.TXT'],
      'nasm': ['third_party/nasm/LICENSE'],
 +    'openh264': ['third_party/openh264/src/LICENSE'],
      'opus': ['third_party/opus/src/COPYING'],
      'pffft': ['third_party/pffft/LICENSE'],
+     'protobuf': ['third_party/protobuf/LICENSE'],
+@@ -79,6 +86,7 @@ LIB_TO_LICENSES_DICT = {
+     'jni_zero': ['third_party/jni_zero/LICENSE'],
+     'protobuf-javascript': ['third_party/protobuf-javascript/LICENSE'],
+     'perfetto': ['third_party/perfetto/LICENSE'],
++    'sframe': ['third_party/sframe/src/LICENSE'],
+ 
+     # These are not libraries but collections of libraries.
+     'android_deps': [],
